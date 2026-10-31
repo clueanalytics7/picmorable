@@ -16,7 +16,7 @@
 
 ## 📖 Overview: What is Picmorable?
 
-Conventional photo applications (Google Photos, Apple Photos, Amazon Photos) primarily focus on **cloud storage, backup, and sync**. For people who have accumulated 5,000 to 20,000+ photographs over 15–20 years across old laptops, memory cards, external drives, and chat backups, standard tools often feel overwhelming, disorganized, or trapped behind monthly cloud lock-ins.
+Conventional photo applications often focus on cloud storage, backup, and sync. For people who have accumulated 5,000 to 20,000+ photographs over 15–20 years across old laptops, memory cards, external drives, and chat backups, standard tools often feel overwhelming, disorganized, or trapped behind monthly cloud lock-ins.
 
 **Picmorable** is built on a different proposition: **Personal Memory Management (PMM)**. It is an intelligent memory reconstruction platform designed to:
 1. **Reconcile forgotten photo archives** from multiple devices into a single coherent timeline.
@@ -111,27 +111,6 @@ Conventional photo applications (Google Photos, Apple Photos, Amazon Photos) pri
 ### Step 6: Create a Hardcover Memory Book
 - Open any album and click **"Layflat Book"** (or **"Memory Book"**).
 - Flip through the simulated hardcover layflat book spreads, view the typography, and export the print-ready proof.
-
----
-
-## 🌐 Hosting via GitHub Pages (`github.io`)
-
-Picmorable is pre-configured for GitHub Pages hosting:
-
-1. **Relative Asset Paths:** `vite.config.ts` defines `base: './'`, ensuring all assets, scripts, stylesheets, and images load correctly whether hosted at the root domain (`https://<username>.github.io/`) or a project subpath (`https://<username>.github.io/<repo-name>/`).
-2. **Building the Production Bundle:**
-   ```bash
-   npm run build
-   ```
-   This generates a static `dist/` directory ready for any static web host.
-
-3. **Deploying to GitHub Pages:**
-   - **Option A (GitHub Actions):** Push to GitHub and enable **GitHub Pages** in your repository settings (*Settings → Pages → Source: GitHub Actions*). You can use standard Vite deploy actions.
-   - **Option B (Manual gh-pages branch):**
-     ```bash
-     npm run build
-     npx gh-pages -d dist
-     ```
 
 ---
 

@@ -3,11 +3,15 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ command, mode }) => {
+  // During build / production, set base to '/picmorable/' matching the GitHub repository name.
+  // This guarantees that all assets are loaded from https://clueanalytics7.github.io/picmorable/assets/...
+  // rather than failing at the root https://clueanalytics7.github.io/assets/...
+  const isProd = mode === 'production' || command === 'build' || process.env.NODE_ENV === 'production';
+  const base = isProd ? '/picmorable/' : '/';
+
   return {
-    // Base './' ensures relative asset paths for seamless deployment to GitHub Pages (github.io)
-    // whether hosted at the apex domain https://<username>.github.io or a subpath https://<username>.github.io/<repo-name>/
-    base: './',
+    base,
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
