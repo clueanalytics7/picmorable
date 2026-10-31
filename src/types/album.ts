@@ -1,0 +1,73 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export type PageTemplateId = 
+  | 'frontispiece'      // Title page with large album narrative & introduction photo
+  | 'hero-single'       // 1 dominant landscape/portrait with centered archival caption
+  | 'twin-portrait'     // 2 vertical portraits side-by-side with individual captions
+  | 'story-trio'        // 1 prominent photo paired with 2 smaller square/detail snapshots
+  | 'quad-scrapbook'    // 4 snapshot-size photos arranged with vintage photo corners
+  | 'duo-landscape'     // 2 horizontal landscape photos stacked top and bottom
+  | 'full-bleed';       // 1 grand full-page bleed photograph
+
+export type CoverMaterial = 
+  | 'burgundy-leather' 
+  | 'forest-linen' 
+  | 'navy-buckram' 
+  | 'sandstone-cloth' 
+  | 'espresso-calfskin';
+
+export type FoilStyle = 
+  | 'gold' 
+  | 'silver' 
+  | 'rose-copper' 
+  | 'blind-embossed';
+
+export type CornerStyle = 
+  | 'black-classic' 
+  | 'gold-brass' 
+  | 'ivory-cloth' 
+  | 'white-border';
+
+export interface AlbumPhoto {
+  id: string;
+  name: string;
+  url: string;
+  blob?: Blob;
+  caption: string;
+  date?: string;
+  location?: string;
+  width?: number;
+  height?: number;
+  aspectRatio: 'landscape' | 'portrait' | 'square';
+  rotation?: number; // subtle angle (-1.5 to 1.5 deg) for vintage scrapbook feel
+}
+
+export interface AlbumPage {
+  pageNumber: number; // 1-indexed
+  templateId: PageTemplateId;
+  photoIds: string[];
+  customTitle?: string;
+  notes?: string;
+}
+
+export interface AlbumSpread {
+  spreadIndex: number; // 0 = Cover, 1 = Pages 1-2, 2 = Pages 3-4, etc.
+  leftPage: AlbumPage | null; // null for front cover inside or single-page view
+  rightPage: AlbumPage | null;
+}
+
+export interface AlbumMetadata {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string; // The user's brief/extended description of the entire album
+  curator: string;
+  dateRange: string;
+  coverMaterial: CoverMaterial;
+  foilStyle: FoilStyle;
+  cornerStyle: CornerStyle;
+  createdAt: string;
+}

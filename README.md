@@ -1,129 +1,112 @@
-# Picmorable — Personal Memory Preservation Platform
+# Picmorable — Privacy-First Traditional Hardcover Photo Album
 
 <p align="center">
   <img src="./public/favicon.svg" alt="Picmorable Logo" width="80" height="80" />
 </p>
 
 <p align="center">
-  <strong>An intelligent personal memory platform transforming scattered photo archives into organised, searchable, and beautifully preserved life experiences.</strong>
+  <strong>A privacy-first, 100% on-device photo album creator that arranges your pictures into an authentic traditional hardcover book with personal captions, narrative stories, and template exports.</strong>
 </p>
 
 <p align="center">
-  <em>"Turn your scattered photographs into a beautiful, searchable story of your life. Less organising. More remembering."</em>
+  <em>"Turn your scattered photographs into a beautiful, tangible story of your life — with zero pictures leaving your device."</em>
 </p>
 
 ---
 
 ## 📖 Overview: What is Picmorable?
 
-Conventional photo applications often focus on cloud storage, backup, and sync. For people who have accumulated 5,000 to 20,000+ photographs over 15–20 years across old laptops, memory cards, external drives, and chat backups, standard tools often feel overwhelming, disorganized, or trapped behind monthly cloud lock-ins.
+Conventional photo applications often focus on cloud storage, backup, and sync. For people who want to preserve special moments without uploading private family photographs to third-party cloud servers, standard tools can feel intrusive and overly complex.
 
-**Picmorable** is built on a different proposition: **Personal Memory Management (PMM)**. It is an intelligent memory reconstruction platform designed to:
-1. **Reconcile forgotten photo archives** from multiple devices into a single coherent timeline.
-2. **Eliminate duplicates and compressed messaging copies** while preserving high-resolution masters.
-3. **Reconstruct life events automatically** (holidays, graduations, road trips, family occasions) from camera timestamps and GPS coordinates.
-4. **Generate context-aware memory captions** that combine verified camera facts with descriptive prose.
-5. **Preserve memories for generations** through interactive timelines, digital albums, and layflat hardcover photo book layouts.
+**Picmorable** is built on a strict **Privacy-First, On-Device** proposition:
+1. **100% Client-Side Processing:** No picture ever leaves your device. All thumbnails, aspect ratio computations, layout arrangements, and exports are executed locally within your browser sandbox.
+2. **Traditional Hardcover Album Experience:** Turn pages of a tactile, old-fashioned hardcover photo album complete with textured linen/leather bindings, debossed gold/silver foil typography, stitched spine creases, and vintage photo corner mounts.
+3. **Intelligent & Intuitive Photo Arrangement:** Upload multiple photos at once; Picmorable automatically analyzes their orientations and pairs portraits, highlights wide panoramic shots, and balances two-page spreads.
+4. **Rich Dual-Level Descriptions:** Write a dedicated, comprehensive narrative description for the **entire album** (printed on the opening frontispiece) as well as personal archival captions for **each individual photograph**.
+5. **Instant Template & Archival Downloads:** Export your rearranged photos organized by page and item number alongside a formatted caption transcript (`.TXT`) and structured manifest (`.JSON`) packaged in a single client-side `.ZIP` file.
 
 ---
 
-## ✨ Key Features & Architectural Modules
+## ✨ Key Features
 
-### 1. Intelligent Photo Importation & Pipeline (Module A)
-- **Multi-Source Ingestion:** Import from local computer folders, external hard drives, SD cards, and cloud archives (Google Takeout, iCloud, WhatsApp media exports).
-- **Pre-Seeded 15-Year Archive:** Includes a built-in sample collection of 3,420 photographs spanning 2012–2026 across 5 devices with full EXIF metadata.
-- **Resumable Bulk Upload Simulator:** 6-stage pipeline (*File Validation → Duplicate Detection → EXIF Extraction → Thumbnails & Embeddings → Event Clustering → AI Memory Captioning*) with background continuation so you can browse your library immediately.
-- **Duplicate & Burst Resolver:** Side-by-side comparison separating exact file duplicates (MD5 hash) from perceptual similarities (burst shots, compressed transfers) with one-click master consolidation.
+### 🔒 1. 100% On-Device Privacy Guarantee
+- **Zero Cloud Uploads:** Photos are ingested via browser memory buffers (`URL.createObjectURL`). Not a single byte is transmitted over the network.
+- **Works Fully Offline:** You can disconnect your network connection, upload hundreds of photos, arrange spreads, and export the final package completely offline.
+- **Zero Tracking:** No telemetry, tracking scripts, or analytics cookies.
 
-### 2. Multi-Dimensional Organisation & Event Clustering (Modules B & D)
-- **Multi-Dimensional Taxonomy:** Browse by chronological years/months, camera gear (Leica, Canon, Sony, Fujifilm, Apple), and verified GPS locations (Andalucía, Oxford, Cotswolds, Kyoto, London).
-- **Intelligent Event Reconstruction:** Clustered events using temporal proximity and geographical boundaries (e.g. *Summer Holiday in Andalucía, University Graduation & Celebration, Autumn Weekend in the Cotswolds*).
-- **User-Confirmed Albums:** Review suggested event clusters, approve them, edit custom narrative stories, or merge/split clusters.
+### 📚 2. Authentic Old-Fashioned Hardcover Album
+- **Tactile Hardcover Bindings:** Choose between Royal Burgundy Leather, Vintage Forest Linen, Deep Oxford Navy Buckram, Warm Sandstone Cloth, and Antique Espresso Calfskin.
+- **Debossed Metallic Foil Stamping:** Custom foil stamping in Antique Gold, Polished Silver, Rose Copper, or Blind Embossed lettering.
+- **Physical Two-Page Spreads:** Left and right cream parchment pages (`#faf8f2`) featuring authentic center gutter creases, deckle borders, and subtle paper texture.
+- **Vintage Photo Mount Corners:** Classic diagonal tri-corner photo mounts (Black Paper, Brass Gold, Ivory Cloth, or Clean White Photographic Margins).
+- **Subtle Acoustic Feedback:** Synthesized paper page-turn rustle using the browser's Web Audio API (no external audio files required, toggleable anytime).
 
-### 3. Context-Aware AI Captions & Provenance Inspector (Module C)
-- **3-Tier Provenance Separation:**
-  - **Tier 1 (Verified Metadata):** EXIF timestamp, camera model, lens, exposure, and GPS coordinates (unalterable facts).
-  - **Tier 2 (Visual Detections):** Computer vision objects, subjects, and scenes.
-  - **Tier 3 (Contextual Inference):** AI-generated narrative hypothesis.
-- **Three Switchable Caption Styles:**
-  - *Simple:* Concise, factual summary.
-  - *Descriptive:* Rich sensory and compositional details.
-  - *Memory Style:* Warm, narrative prose blending verified facts with atmosphere.
-- **Personal Customization:** Inline caption editor with user confirmation tracking.
+### 📐 3. Intelligent Arrangement Engine
+- **Balanced Layouts:** Automatically detects photo aspect ratios:
+  - Pairs vertical portraits side-by-side (`twin-portrait`).
+  - Gives landscape and panoramic vistas prominent hero placements (`hero-single` / `duo-landscape`).
+  - Assembles vignettes into harmonious trios (`story-trio`) or 2x2 collage grids (`quad-scrapbook`).
+- **Flexible Arrangement Strategies:**
+  - *Intelligent Balanced:* Harmonious pairing based on orientation and visual weight.
+  - *Chronological Timeline:* Arranged sequentially by capture timestamp.
+  - *Single Hero Plates:* One high-impact photo per page with centered caption.
+  - *Dense Scrapbook:* Four photos per spread with authentic rotational offsets.
+- **Per-Page Customization:** Switch any individual page's template on the fly via the template selector.
 
-### 4. "Your Life in Pictures" — Interactive Timeline (Module E)
-- **Visual Dot-Density Timeline (2012–2026):** Ribbon showing photographic density across 15 years.
-- Click any year to reveal reconstructed milestone events, geographic footprints, active months, and photographic highlights.
+### ✍️ 4. Captions & Album Narrative Story
+- **Album Narrative Field:** A prominent, rich description block on the frontispiece page where you write the overarching story of the album (the holiday, family gathering, wedding, or milestone).
+- **Per-Picture Descriptions:** An inline editable caption slip directly beneath each photograph formatted in classic italic serif typography.
 
-### 5. Memory Discovery ("On This Day")
-- Flashback engine surfacing memories captured on today's date across previous years (e.g. 3 years ago today in Castle Combe, 5 years ago in Oxford).
-- Seasonal memory cards prompting rediscovery without manual searching.
-
-### 6. 4-Layer Natural Language Hybrid Search (Module F)
-- Conversational search interface (`⌘K` shortcut) that decomposes natural language into:
-  - *Layer 1:* Structured metadata filters (dates, countries, cameras)
-  - *Layer 2:* Semantic visual concepts (beach, sea, cliffs, stone cottage, graduation gown)
-  - *Layer 3:* Narrative caption text
-  - *Layer 4:* Contextual query interpreter displaying an inspectable **AST / JSON Query Plan**.
-
-### 7. Physical Memory Products — Layflat Photo Books (Section 15)
-- Turn any approved digital album into a museum-grade **12×12″ Layflat Hardcover Photo Book**.
-- Features linen texture covers, foil-stamped typography, multi-page editorial spreads, narrative captions, and exportable 300 DPI print-ready specifications.
-
-### 8. Trust, Privacy & UK GDPR Governance (Sections 6 & 7)
-- **The 7 Trust Commitments:** Zero AI model training on your photos, private by default, full data portability, and permanent cryptographic purge.
-- **Processing Architecture Switch:** Choose between *Standard Private Cloud* or *Privacy-Enhanced On-Device Processing*.
-- **Facial Recognition Safeguard:** Disabled by default under UK ICO biometric guidance; strictly opt-in.
-- **Data Portability:** One-click full library manifest export (JSON format with complete EXIF and provenance data).
-- **Flexible Commercial Model:** Choose between accessible subscriptions (£0–£10.99/mo) or a **One-Off 20-Year Archive Preservation Package** (£39.00 lifetime curation with no recurring fees).
+### 📦 5. Client-Side Archival Export & Download
+- **Complete Album Package (.ZIP):**
+  - All rearranged photos renamed and organized by page (`page_01_photo_01.jpg`, `page_02_photo_01.jpg`, etc.).
+  - `ALBUM_STORY_AND_CAPTIONS.txt`: A clean, human-readable archival transcript with album story and plate-by-plate captions.
+  - `album_manifest.json`: Full machine-readable schema.
+- **Plain Text Transcript (.TXT):** Instant download of your album notes and captions.
+- **Spread Proof (.PNG):** High-resolution canvas snapshot of any open book spread.
 
 ---
 
 ## 🚀 How Best to Use Picmorable
 
-### Step 1: Import Your Archive
-- Click **"Import Photos"** in the top navigation bar.
-- Choose **"Pre-Seeded 15-Year Archive"** for an immediate tour of a multi-device collection, or drag and drop your own photo files.
-- Watch the resumable pipeline validate files, compute hashes, extract EXIF data, and form event clusters.
+### Step 1: Browse or Personalize the Starter Album
+- Explore the pre-loaded sample album (*"Summer by the Atlantic Coast"*) to experience page turning, cover styles, and captions.
+- Click **"Open Photo Album"** or use the **`←`** and **`→`** arrow keys on your keyboard to turn pages.
 
-### Step 2: Resolve Duplicates
-- If duplicates or rapid bursts are detected, click the **"Duplicates"** pill in the header.
-- Inspect the side-by-side comparison (master RAW/DNG file vs compressed WhatsApp export).
-- Choose **"Consolidate (Keep Master Only)"** to declutter your feed while safeguarding the highest-resolution original.
+### Step 2: Upload Your Own Photos
+- Click **"+ Add Photos"** in the top navigation toolbar.
+- Drag and drop multiple photos from your computer or click to browse.
+- Choose whether to **"Start new album"** or **"Append to current album"**.
+- Select your preferred arrangement strategy (*Intelligent Balanced*, *Chronological*, etc.) and click **"Arrange into Hardcover Album"**.
 
-### Step 3: Explore Suggested Event Albums
-- Navigate to **"Suggested Albums"**.
-- Review automatically clustered events. Click **"Approve Album"** to confirm an event, or click **"Edit album story"** to add personal family recollections.
+### Step 3: Write Your Descriptions
+- **Album Story:** Click on the opening frontispiece plate (Page 1) to write the overview description of the entire album.
+- **Photo Captions:** Click directly on the caption text below any photograph to write personal recollections, dates, or locations. Press **Enter** to save.
 
-### Step 4: Inspect Provenance and Captions
-- Click any photo in the library to open the **Memory Inspector**.
-- Switch between **Simple**, **Descriptive**, and **Memory** caption styles.
-- Click the **"Provenance Architecture"** tab to see how Picmorable separates camera hardware facts from AI computer vision and narrative inferences.
+### Step 4: Customize the Hardcover
+- Click the **Sliders** icon in the toolbar or return to the cover view to customize:
+  - Album Title & Subtitle.
+  - Hardcover material (Burgundy Leather, Forest Linen, Navy Buckram, etc.).
+  - Foil stamping (Gold, Silver, Rose Copper).
+  - Photo corner style (Classic Black, Brass, Ivory).
 
-### Step 5: Search in Natural Language
-- Press `⌘K` or click **"Natural Search"** in the header.
-- Type conversational questions like:
-  - *"Photos of beach and coastal cliffs in Spain in 2022"*
-  - *"Autumn stone cottages with bridge"*
-  - *"University graduation celebrations with family in Oxford"*
-- Toggle the **"View Query AST"** button to see the underlying structured JSON interpretation.
-
-### Step 6: Create a Hardcover Memory Book
-- Open any album and click **"Layflat Book"** (or **"Memory Book"**).
-- Flip through the simulated hardcover layflat book spreads, view the typography, and export the print-ready proof.
+### Step 5: Download & Preserve
+- Click **"Download"** in the top-right corner.
+- Choose **"Complete Archival Album (.ZIP)"** to save all rearranged photos, metadata, and formatted captions transcript directly to your computer.
 
 ---
 
 ## 🛠️ Technology Stack
 
 - **Framework:** React 19 (Functional components, hooks)
-- **Build Tool:** Vite 8 (with relative asset linking for GitHub Pages)
-- **Styling:** Tailwind CSS v4 with bespoke `@theme` typography (`Fraunces` editorial serif, `Plus Jakarta Sans`, and `JetBrains Mono`)
+- **Styling:** Tailwind CSS v4 with bespoke editorial typography (`Fraunces` serif, `Plus Jakarta Sans`, and `JetBrains Mono`)
+- **Archiving & Packaging:** `jszip` for 100% on-device file bundling
+- **Audio Engine:** Web Audio API procedural synthesis for paper rustle sound
 - **Icons:** Lucide React
-- **Design Constitution:** Compliant with the Universal Frontend Design Constitution (60-30-10 color allocation, Zero-Pill metadata discipline, Top Bar Contract, single-elevation depth, and tabular figures).
+- **Build System:** Vite 8
 
 ---
 
 ## 📄 License
 
-Apache-2.0. Built for personal digital memory preservation.
+Apache-2.0. Built for personal privacy and lifelong memory preservation.
