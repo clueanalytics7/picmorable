@@ -1,0 +1,6 @@
+{
+  "name": "Memoria — Personal Memory Preservation Platform",
+  "description": "An intelligent personal memory platform transforming scattered photo archives into organised, searchable, and beautifully preserved life experiences.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
