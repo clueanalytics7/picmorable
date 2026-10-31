@@ -98,7 +98,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({
         {/* Right: Big photo */}
         <div className="lg:col-span-7 bg-stone-950 relative min-h-[300px] lg:min-h-full">
           <img
-            src="/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg"
+            src={(photos.find(p => p.id === 'photo-3') || photos[0]).url}
             alt="Castle Combe Autumn"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -126,7 +126,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({
             <div>
               <div className="aspect-[16/10] overflow-hidden bg-stone-100">
                 <img
-                  src="/src/assets/images/family_graduation_memory_1793453873000.jpg"
+                  src={(photos.find(p => p.id === 'photo-2') || photos[0]).url}
                   alt="Oxford Graduation"
                   className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                   referrerPolicy="no-referrer"
@@ -165,7 +165,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({
             <div>
               <div className="aspect-[16/10] overflow-hidden bg-stone-100">
                 <img
-                  src="/src/assets/images/travel_coastal_spain_1793453871431.jpg"
+                  src={(photos.find(p => p.id === 'photo-1') || photos[0]).url}
                   alt="Nerja Cove"
                   className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                   referrerPolicy="no-referrer"
@@ -204,7 +204,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({
             <div>
               <div className="aspect-[16/10] overflow-hidden bg-stone-100">
                 <img
-                  src="/src/assets/images/tokyo_spring_garden_1793453873185.jpg"
+                  src={(photos.find(p => p.id === 'photo-4') || photos[0]).url}
                   alt="Kyoto Pavilion"
                   className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                   referrerPolicy="no-referrer"
@@ -245,7 +245,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({
             Have old hard drives or laptop backups?
           </h3>
           <p className="text-xs text-stone-600 leading-relaxed">
-            Memoria excels at reconciling forgotten folders, external discs, and chat exports into one seamless timeline with deduplication and metadata restoration.
+            Picmorable excels at reconciling forgotten folders, external discs, and chat exports into one seamless timeline with deduplication and metadata restoration.
           </p>
         </div>
 

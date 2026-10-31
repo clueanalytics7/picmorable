@@ -279,7 +279,7 @@ export default function App() {
       <footer className="border-t border-stone-200 py-6 px-6 bg-stone-100 text-xs text-stone-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="font-serif font-bold text-stone-800">Memoria</span>
+            <span className="font-serif font-bold text-stone-800">Picmorable</span>
             <span>·</span>
             <span>Turn your scattered photographs into a beautiful, searchable story of your life.</span>
           </div>
@@ -298,7 +298,7 @@ export default function App() {
               Preservation Pricing
             </button>
             <span>·</span>
-            <span>© 2026 Memoria Ltd</span>
+            <span>© 2026 Picmorable Ltd</span>
           </div>
         </div>
       </footer>

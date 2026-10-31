@@ -91,7 +91,7 @@ export const PlacesView: React.FC<PlacesViewProps> = ({ photos, onSelectPhoto })
 
           <div className="aspect-[16/9] rounded-xl overflow-hidden bg-stone-100">
             <img
-              src="/src/assets/images/travel_coastal_spain_1793453871431.jpg"
+              src={(photos.find(p => p.exif.country === 'Spain') || photos[0]).url}
               alt="Spain"
               className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
               referrerPolicy="no-referrer"
@@ -124,7 +124,7 @@ export const PlacesView: React.FC<PlacesViewProps> = ({ photos, onSelectPhoto })
 
           <div className="aspect-[16/9] rounded-xl overflow-hidden bg-stone-100">
             <img
-              src="/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg"
+              src={(photos.find(p => p.exif.country === 'United Kingdom') || photos[1]).url}
               alt="United Kingdom"
               className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
               referrerPolicy="no-referrer"
@@ -157,7 +157,7 @@ export const PlacesView: React.FC<PlacesViewProps> = ({ photos, onSelectPhoto })
 
           <div className="aspect-[16/9] rounded-xl overflow-hidden bg-stone-100">
             <img
-              src="/src/assets/images/tokyo_spring_garden_1793453873185.jpg"
+              src={(photos.find(p => p.exif.country === 'Japan') || photos[3]).url}
               alt="Japan"
               className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
               referrerPolicy="no-referrer"

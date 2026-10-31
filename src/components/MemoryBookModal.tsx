@@ -80,7 +80,7 @@ export const MemoryBookModal: React.FC<MemoryBookModalProps> = ({
             <div className="w-full max-w-lg aspect-[4/3] bg-gradient-to-br from-stone-800 to-stone-900 rounded-r-2xl rounded-l-md shadow-2xl p-8 sm:p-12 border-l-8 border-stone-950 border-r border-t border-b border-stone-700 flex flex-col justify-between relative overflow-hidden">
               <div className="text-right">
                 <span className="text-[10px] font-mono text-amber-300/80 uppercase tracking-widest">
-                  MEMORIA CHRONICLE EDITION
+                  PICMORABLE CHRONICLE EDITION
                 </span>
               </div>
 
@@ -126,7 +126,7 @@ export const MemoryBookModal: React.FC<MemoryBookModalProps> = ({
                 </div>
 
                 <div className="flex items-center justify-between text-[10px] text-stone-400 font-mono pt-4 border-t border-stone-200">
-                  <span>MEMORIA ARCHIVES</span>
+                  <span>PICMORABLE ARCHIVES</span>
                   <span>PAGE 01</span>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import {
   BookOpen, 
   SlidersHorizontal 
 } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface HeaderProps {
   activeTab: string;
@@ -40,18 +41,14 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-30 bg-stone-50/95 backdrop-blur-md border-b border-stone-200/80 px-6 py-3.5 transition-colors">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-8">
         
-        {/* Zone 1: Single text element wordmark */}
+        {/* Zone 1: Single brand logo and wordmark */}
         <div className="flex items-center gap-3 shrink-0">
           <button 
             onClick={() => setActiveTab('home')}
-            className="text-left group flex items-baseline gap-2 cursor-pointer focus:outline-none"
+            className="text-left group cursor-pointer focus:outline-none"
+            title="Picmorable Home"
           >
-            <span className="font-serif text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-800 transition-colors">
-              Memoria
-            </span>
-            <span className="hidden sm:inline text-xs font-mono text-stone-500 tracking-tight">
-              Personal Memory Preservation
-            </span>
+            <Logo size={32} />
           </button>
         </div>
 

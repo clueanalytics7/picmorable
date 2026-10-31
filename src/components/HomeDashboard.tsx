@@ -58,7 +58,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
           <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
             Upload scattered photo archives from old laptops, camera SD cards, and mobile exports. 
-            Let Memoria reconstruct dates, locations, event stories, and layflat memory albums.
+            Let Picmorable reconstruct dates, locations, event stories, and layflat memory albums.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">

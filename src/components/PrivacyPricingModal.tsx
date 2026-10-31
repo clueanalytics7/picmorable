@@ -46,7 +46,7 @@ export const PrivacyPricingModal: React.FC<PrivacyPricingModalProps> = ({
   const handleExportData = () => {
     // Generate JSON archive export
     const exportData = {
-      platform: 'Memoria Personal Memory Preservation Platform',
+      platform: 'Picmorable Personal Memory Preservation Platform',
       exportDate: new Date().toISOString(),
       user: 'clueanalytics7@gmail.com',
       gdpr_compliance: 'UK GDPR / ICO Standard Protocol',
@@ -150,7 +150,7 @@ export const PrivacyPricingModal: React.FC<PrivacyPricingModalProps> = ({
                 </div>
                 <p className="text-xs text-emerald-900 leading-relaxed">
                   Personal photographs contain sensitive family moments, children, private celebrations, and home interiors. 
-                  Memoria is architected under UK GDPR and Data Protection principles with zero AI training on user media.
+                  Picmorable is architected under UK GDPR and Data Protection principles with zero AI training on user media.
                 </p>
               </div>
 
@@ -346,7 +346,7 @@ export const PrivacyPricingModal: React.FC<PrivacyPricingModalProps> = ({
                   Complete Data Portability & Archive Export
                 </h3>
                 <p className="text-xs text-stone-600">
-                  You are never locked into Memoria. Export your high-resolution photographs alongside structured EXIF metadata, AI captions, and album manifests.
+                  You are never locked into Picmorable. Export your high-resolution photographs alongside structured EXIF metadata, AI captions, and album manifests.
                 </p>
               </div>
 
@@ -404,7 +404,7 @@ export const PrivacyPricingModal: React.FC<PrivacyPricingModalProps> = ({
 
         {/* Modal Footer */}
         <div className="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between text-xs text-stone-500">
-          <span>Memoria Trust & Privacy Governance Framework · 2026</span>
+          <span>Picmorable Trust & Privacy Governance Framework · 2026</span>
           <button
             onClick={onClose}
             className="px-4 py-2 text-xs font-medium text-stone-700 hover:text-stone-900 cursor-pointer"

@@ -1,10 +1,15 @@
 import { PhotoItem, AlbumItem, DuplicateGroup, TimelineYearData } from '../types';
 
+import travelCoastalSpain from '../assets/images/travel_coastal_spain_1793453871431.jpg';
+import familyGraduation from '../assets/images/family_graduation_memory_1793453873000.jpg';
+import cotswoldsAutumn from '../assets/images/cotswolds_autumn_cottage_1793454002285.jpg';
+import tokyoSpringGarden from '../assets/images/tokyo_spring_garden_1793453873185.jpg';
+
 export const SAMPLE_PHOTOS: PhotoItem[] = [
   {
     id: 'photo-1',
-    url: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
-    thumbnailUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    url: travelCoastalSpain,
+    thumbnailUrl: travelCoastalSpain,
     title: 'Secluded Cove at Maro, Andalucía',
     exif: {
       dateTaken: '2022-08-14 11:24:18',
@@ -36,7 +41,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Coastal nature / beach excursion',
       contextualInference: 'Likely part of a multi-day summer holiday itinerary along the Andalusian coastline.',
       confidence: 0.96,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -47,8 +52,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-1-dup',
-    url: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
-    thumbnailUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    url: travelCoastalSpain,
+    thumbnailUrl: travelCoastalSpain,
     title: 'Maro Cove (WhatsApp Export Copy)',
     exif: {
       dateTaken: '2022-08-14 11:24:18',
@@ -91,8 +96,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-2',
-    url: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
-    thumbnailUrl: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
+    url: familyGraduation,
+    thumbnailUrl: familyGraduation,
     title: 'Graduation Day Celebration',
     exif: {
       dateTaken: '2021-06-18 14:15:02',
@@ -124,7 +129,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Academic graduation ceremony & family reunion',
       contextualInference: 'Significant family milestone: degree conferral event confirmed by academic dress and ceremony programme.',
       confidence: 0.98,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -135,8 +140,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-3',
-    url: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
-    thumbnailUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    url: cotswoldsAutumn,
+    thumbnailUrl: cotswoldsAutumn,
     title: 'Autumn Walk through Castle Combe',
     exif: {
       dateTaken: '2023-10-24 15:48:33',
@@ -168,7 +173,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Rural English village / autumn excursion',
       contextualInference: 'Weekend country getaway in the Cotswolds during peak autumn color.',
       confidence: 0.95,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -179,8 +184,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-4',
-    url: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
-    thumbnailUrl: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
+    url: tokyoSpringGarden,
+    thumbnailUrl: tokyoSpringGarden,
     title: 'Spring Pavilion in Kyoto Mist',
     exif: {
       dateTaken: '2019-04-08 08:30:19',
@@ -212,7 +217,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Historical Japanese architecture & botanical spring',
       contextualInference: 'Spring trip to Japan timed with the annual cherry blossom (Sakura) season.',
       confidence: 0.97,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -223,8 +228,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-5',
-    url: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
-    thumbnailUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    url: travelCoastalSpain,
+    thumbnailUrl: travelCoastalSpain,
     title: 'Ronda Cliffs & White Village Excursion',
     exif: {
       dateTaken: '2022-08-12 16:40:55',
@@ -256,7 +261,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Historical sightseeing / mountain canyon',
       contextualInference: 'Preceding day of the Andalucia summer holiday series, 48 hours prior to Maro cove visit.',
       confidence: 0.94,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -267,8 +272,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-6',
-    url: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
-    thumbnailUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    url: cotswoldsAutumn,
+    thumbnailUrl: cotswoldsAutumn,
     title: 'Bourton-on-the-Water Footbridge (Burst Shot 1)',
     exif: {
       dateTaken: '2023-10-24 16:02:11',
@@ -312,8 +317,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-7',
-    url: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
-    thumbnailUrl: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
+    url: familyGraduation,
+    thumbnailUrl: familyGraduation,
     title: 'University Quadrangle Walk (Candidate Shot)',
     exif: {
       dateTaken: '2021-06-18 14:15:38',
@@ -357,8 +362,8 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
   },
   {
     id: 'photo-8',
-    url: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
-    thumbnailUrl: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
+    url: tokyoSpringGarden,
+    thumbnailUrl: tokyoSpringGarden,
     title: 'Arashiyama Bamboo & Moss Garden Path',
     exif: {
       dateTaken: '2019-04-10 10:14:45',
@@ -390,7 +395,7 @@ export const SAMPLE_PHOTOS: PhotoItem[] = [
       detectedScene: 'Traditional Japanese temple garden',
       contextualInference: 'Day 3 of Kansai spring excursion, clustered with Kyoto temple pavilion photos.',
       confidence: 0.96,
-      modelUsed: 'Gemini Vision v2.5 Multimodal',
+      modelUsed: 'Multimodal Vision Engine',
       generatedDate: '2026-10-31',
       isUserConfirmed: true,
     },
@@ -406,7 +411,7 @@ export const SAMPLE_ALBUMS: AlbumItem[] = [
     id: 'album-andalucia-2022',
     title: 'Summer Holiday in Andalucía',
     subtitle: '146 photographs across 4 locations (Nerja, Ronda, Malaga, Frigiliana)',
-    coverPhotoUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    coverPhotoUrl: travelCoastalSpain,
     photoIds: ['photo-1', 'photo-1-dup', 'photo-5'],
     type: 'ai_event',
     dateRange: {
@@ -424,7 +429,7 @@ export const SAMPLE_ALBUMS: AlbumItem[] = [
     id: 'album-oxford-graduation-2021',
     title: 'University Graduation & Celebration',
     subtitle: '38 photographs in Oxford, UK',
-    coverPhotoUrl: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
+    coverPhotoUrl: familyGraduation,
     photoIds: ['photo-2', 'photo-7'],
     type: 'ai_event',
     dateRange: {
@@ -442,7 +447,7 @@ export const SAMPLE_ALBUMS: AlbumItem[] = [
     id: 'album-cotswolds-autumn-2023',
     title: 'Autumn Weekend in the Cotswolds',
     subtitle: '54 photographs in Wiltshire & Gloucestershire',
-    coverPhotoUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    coverPhotoUrl: cotswoldsAutumn,
     photoIds: ['photo-3', 'photo-6'],
     type: 'ai_event',
     dateRange: {
@@ -460,7 +465,7 @@ export const SAMPLE_ALBUMS: AlbumItem[] = [
     id: 'album-japan-spring-2019',
     title: 'Cherry Blossom Journey Across Japan',
     subtitle: '82 photographs in Tokyo & Kyoto',
-    coverPhotoUrl: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
+    coverPhotoUrl: tokyoSpringGarden,
     photoIds: ['photo-4', 'photo-8'],
     type: 'ai_event',
     dateRange: {
@@ -477,7 +482,7 @@ export const SAMPLE_ALBUMS: AlbumItem[] = [
     id: 'album-rule-2022',
     title: 'All Photographs — 2022 Archive',
     subtitle: '412 photographs collected across 3 devices',
-    coverPhotoUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    coverPhotoUrl: travelCoastalSpain,
     photoIds: ['photo-1', 'photo-1-dup', 'photo-5'],
     type: 'rule_based',
     dateRange: {
@@ -528,7 +533,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 148,
     topLocations: ['London, UK', 'Edinburgh, UK'],
     highlightEvents: ['New Year in the Highlands', 'Spring Botanical Gardens'],
-    coverPhotoUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    coverPhotoUrl: cotswoldsAutumn,
     monthsActive: 10,
   },
   {
@@ -536,7 +541,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 390,
     topLocations: ['Rome, Italy', 'Cornwall, UK'],
     highlightEvents: ['Amalfi Coast Summer Trip', 'Family Christmas at Home'],
-    coverPhotoUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    coverPhotoUrl: travelCoastalSpain,
     monthsActive: 12,
   },
   {
@@ -544,7 +549,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 420,
     topLocations: ['Lake District, UK', 'Paris, France'],
     highlightEvents: ['60th Birthday Lake Cruise', 'Autumn Paris Weekend'],
-    coverPhotoUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    coverPhotoUrl: cotswoldsAutumn,
     monthsActive: 11,
   },
   {
@@ -552,7 +557,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 512,
     topLocations: ['Cotswolds, UK', 'Barcelona, Spain', 'London, UK'],
     highlightEvents: ['Autumn Weekend in the Cotswolds', 'Spring Architecture Tour'],
-    coverPhotoUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    coverPhotoUrl: cotswoldsAutumn,
     monthsActive: 12,
   },
   {
@@ -560,7 +565,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 684,
     topLocations: ['Nerja, Spain', 'Ronda, Spain', 'London, UK'],
     highlightEvents: ['Summer Holiday in Andalucía', 'Queen Jubilee Street Party'],
-    coverPhotoUrl: '/src/assets/images/travel_coastal_spain_1793453871431.jpg',
+    coverPhotoUrl: travelCoastalSpain,
     monthsActive: 12,
   },
   {
@@ -568,7 +573,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 432,
     topLocations: ['Oxford, UK', 'Cornwall, UK', 'Birmingham, UK'],
     highlightEvents: ['University of Oxford Graduation', 'Post-Lockdown Coast Roadtrip'],
-    coverPhotoUrl: '/src/assets/images/family_graduation_memory_1793453873000.jpg',
+    coverPhotoUrl: familyGraduation,
     monthsActive: 10,
   },
   {
@@ -576,7 +581,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 210,
     topLocations: ['Home Garden, UK', 'Local Woodlands, UK'],
     highlightEvents: ['Baking Sourdough with Family', 'Quiet Winter Walks'],
-    coverPhotoUrl: '/src/assets/images/cotswolds_autumn_cottage_1793454002285.jpg',
+    coverPhotoUrl: cotswoldsAutumn,
     monthsActive: 8,
   },
   {
@@ -584,7 +589,7 @@ export const TIMELINE_YEARS: TimelineYearData[] = [
     photoCount: 624,
     topLocations: ['Kyoto, Japan', 'Tokyo, Japan', 'London, UK'],
     highlightEvents: ['Cherry Blossom Journey Across Japan', 'Summer Music Festival'],
-    coverPhotoUrl: '/src/assets/images/tokyo_spring_garden_1793453873185.jpg',
+    coverPhotoUrl: tokyoSpringGarden,
     monthsActive: 11,
   }
 ];

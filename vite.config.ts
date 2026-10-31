@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Base './' ensures relative asset paths for seamless deployment to GitHub Pages (github.io)
+    // whether hosted at the apex domain https://<username>.github.io or a subpath https://<username>.github.io/<repo-name>/
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
