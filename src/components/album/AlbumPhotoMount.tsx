@@ -4,12 +4,13 @@
  */
 
 import React, { useState } from 'react';
-import { AlbumPhoto, CornerStyle } from '../../types/album';
+import { AlbumPhoto, CornerStyle, ScriptStyle } from '../../types/album';
 import { Edit3, Check, Calendar, MapPin, Trash2, ArrowLeftRight, Maximize2 } from 'lucide-react';
 
 interface AlbumPhotoMountProps {
   photo: AlbumPhoto;
   cornerStyle?: CornerStyle;
+  scriptStyle?: ScriptStyle;
   onUpdateCaption: (photoId: string, caption: string) => void;
   onRemovePhoto?: (photoId: string) => void;
   onSwapSlot?: () => void;
@@ -21,6 +22,7 @@ interface AlbumPhotoMountProps {
 export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
   photo,
   cornerStyle = 'black-classic',
+  scriptStyle = 'serif-editorial',
   onUpdateCaption,
   onRemovePhoto,
   onSwapSlot,
@@ -30,6 +32,20 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [draftCaption, setDraftCaption] = useState(photo.caption);
+
+  const getScriptClass = () => {
+    switch (scriptStyle) {
+      case 'fountain-pen':
+        return 'font-serif italic text-stone-900 tracking-wider text-xs sm:text-[13px] leading-relaxed drop-shadow-[0_0_1px_rgba(20,20,40,0.15)]';
+      case 'vintage-typewriter':
+        return 'font-mono text-stone-900 tracking-tight text-[11px] sm:text-xs leading-snug';
+      case 'architect-hand':
+        return 'font-sans uppercase text-stone-800 tracking-[0.18em] text-[10px] sm:text-[11px] font-medium leading-relaxed';
+      case 'serif-editorial':
+      default:
+        return 'font-serif italic text-stone-800 tracking-wide text-xs sm:text-[13px] leading-snug';
+    }
+  };
 
   const handleSaveCaption = () => {
     onUpdateCaption(photo.id, draftCaption);
@@ -191,11 +207,11 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
             title="Click to edit photograph description"
           >
             {photo.caption ? (
-              <p className="font-serif italic text-xs sm:text-[13px] text-stone-800 leading-snug tracking-wide line-clamp-3">
+              <p className={`${getScriptClass()} line-clamp-3`}>
                 "{photo.caption}"
               </p>
             ) : (
-              <p className="font-serif italic text-xs text-stone-400 group-hover/caption:text-stone-600 flex items-center justify-center gap-1">
+              <p className={`${getScriptClass()} opacity-60 flex items-center justify-center gap-1`}>
                 <Edit3 className="w-3 h-3 opacity-60" /> Write description...
               </p>
             )}

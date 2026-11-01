@@ -12,6 +12,7 @@ interface AlbumSpreadViewProps {
   spread: AlbumSpread;
   meta: AlbumMetadata;
   photos: AlbumPhoto[];
+  showPrintGuides?: boolean;
   onUpdatePhotoCaption: (photoId: string, caption: string) => void;
   onUpdateAlbumDescription: (newDescription: string) => void;
   onUpdatePageTemplate: (pageNumber: number, templateId: PageTemplateId) => void;
@@ -24,6 +25,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
   spread,
   meta,
   photos,
+  showPrintGuides = false,
   onUpdatePhotoCaption,
   onUpdateAlbumDescription,
   onUpdatePageTemplate,
@@ -170,6 +172,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 <AlbumPhotoMount
                   photo={heroPhoto}
                   cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -217,6 +220,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -256,6 +260,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -269,6 +274,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p2}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -307,6 +313,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -320,6 +327,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p2}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -359,6 +367,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
               <AlbumPhotoMount
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -373,6 +382,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 <AlbumPhotoMount
                   photo={p2}
                   cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -385,6 +395,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 <AlbumPhotoMount
                   photo={p3}
                   cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -424,6 +435,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 <AlbumPhotoMount
                   photo={qp}
                   cornerStyle={meta.cornerStyle}
+                  scriptStyle={meta.scriptStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -436,11 +448,48 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
           ))}
         </div>
 
-        <div className="text-center pt-2 border-t border-stone-200">
+        <div className="relative text-center pt-2 border-t border-stone-200 flex items-center justify-between">
           <span className="text-[10px] font-mono text-stone-400">PAGE {page.pageNumber}</span>
+          {renderEmbellishment()}
         </div>
       </div>
     );
+  };
+
+  const renderEmbellishment = () => {
+    if (!meta.embellishment || meta.embellishment === 'none') return null;
+    if (meta.embellishment === 'wax-seal') {
+      return (
+        <span 
+          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-950 border border-amber-600/60 text-amber-200 text-[10px] shadow-sm select-none"
+          title="Archival Wax Seal Stamp"
+        >
+          ❖
+        </span>
+      );
+    }
+    if (meta.embellishment === 'botanical-branch') {
+      return (
+        <span className="text-stone-400 text-[11px] select-none" title="Botanical Folio Branch">
+          🌿
+        </span>
+      );
+    }
+    if (meta.embellishment === 'postal-date-stamp') {
+      return (
+        <span className="text-[8px] font-mono text-stone-500 border border-stone-400/80 px-1 rounded-sm select-none" title="Postal Date Stamp">
+          {meta.dateRange?.slice(0, 4) || '1998'}
+        </span>
+      );
+    }
+    if (meta.embellishment === 'antique-compass') {
+      return (
+        <span className="text-stone-400 text-[11px] select-none" title="Navigational Compass Rose">
+          🧭
+        </span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -454,6 +503,32 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
             {/* Center Gutter / Spine Crease Shadow */}
             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-12 bg-gradient-to-r from-black/5 via-black/25 to-black/5 pointer-events-none z-20 shadow-inner" />
             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 -translate-x-px w-[1px] bg-stone-400 pointer-events-none z-20" />
+
+            {/* Print Pre-Flight Guides Overlay */}
+            {showPrintGuides && (
+              <>
+                {/* Outer 3mm Trim Bleed Guide */}
+                <div className="absolute inset-3 border-2 border-dashed border-rose-500/80 pointer-events-none z-30 flex flex-col justify-between p-2">
+                  <div className="flex justify-between items-center text-[9px] font-mono font-bold text-rose-700 bg-white/95 px-2 py-0.5 rounded shadow-sm border border-rose-300">
+                    <span>✂ 3mm Physical Trim Line</span>
+                    <span className="hidden sm:inline">Safe Live Content Area (Keep essential faces & text inside)</span>
+                    <span>✂ 3mm Physical Trim Line</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[9px] font-mono text-rose-700 bg-white/95 px-2 py-0.5 rounded shadow-sm border border-rose-300">
+                    <span>0.125" Bleed Margin</span>
+                    <span className="hidden sm:inline">Bottom Margin Safety Guide</span>
+                    <span>0.125" Bleed Margin</span>
+                  </div>
+                </div>
+
+                {/* Center Spine Gutter Safety Zone */}
+                <div className="hidden md:flex absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-16 bg-amber-500/15 border-x-2 border-dashed border-amber-600/80 pointer-events-none z-30 flex-col justify-center items-center">
+                  <span className="text-[8px] font-mono font-bold text-amber-900 bg-amber-100/95 px-1 py-4 rotate-90 whitespace-nowrap rounded shadow-sm border border-amber-400">
+                    0.5" SPINE GUTTER FOLD SAFETY
+                  </span>
+                </div>
+              </>
+            )}
 
             {/* Left Page */}
             <div className="relative h-full border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between">

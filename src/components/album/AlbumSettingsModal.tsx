@@ -4,8 +4,8 @@
  */
 
 import React, { useState } from 'react';
-import { X, SlidersHorizontal, Check, Book, Feather, Sparkles } from 'lucide-react';
-import { AlbumMetadata, CoverMaterial, FoilStyle, CornerStyle } from '../../types/album';
+import { X, SlidersHorizontal, Check, Feather, Sparkles } from 'lucide-react';
+import { AlbumMetadata, CoverMaterial, FoilStyle, CornerStyle, ScriptStyle, EmbellishmentStyle } from '../../types/album';
 
 interface AlbumSettingsModalProps {
   isOpen: boolean;
@@ -28,6 +28,8 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
   const [coverMaterial, setCoverMaterial] = useState<CoverMaterial>(meta.coverMaterial);
   const [foilStyle, setFoilStyle] = useState<FoilStyle>(meta.foilStyle);
   const [cornerStyle, setCornerStyle] = useState<CornerStyle>(meta.cornerStyle);
+  const [scriptStyle, setScriptStyle] = useState<ScriptStyle>(meta.scriptStyle || 'serif-editorial');
+  const [embellishment, setEmbellishment] = useState<EmbellishmentStyle>(meta.embellishment || 'wax-seal');
 
   if (!isOpen) return null;
 
@@ -41,6 +43,8 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
       coverMaterial,
       foilStyle,
       cornerStyle,
+      scriptStyle,
+      embellishment,
     });
     onClose();
   };
@@ -227,6 +231,65 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
                   }`}
                 >
                   {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Penmanship & Marginalia Typography Style */}
+          <div>
+            <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-2 font-mono">
+              Penmanship & Inscription Style
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { id: 'serif-editorial', label: 'Classic Editorial Serif', font: 'font-serif italic', preview: '"The morning tide at St Ives"' },
+                { id: 'fountain-pen', label: 'Fountain Pen Cursive', font: 'font-serif italic tracking-wider text-amber-200', preview: '"Salt spray & afternoon tea"' },
+                { id: 'vintage-typewriter', label: 'Mechanical Typewriter', font: 'font-mono text-stone-200', preview: '"PLATE NO. 04 / ARCHIVE"' },
+                { id: 'architect-hand', label: "Architect's Hand Lettering", font: 'font-sans uppercase tracking-widest text-stone-300', preview: '"COASTAL FOOTPATH WALK"' },
+              ].map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setScriptStyle(s.id as ScriptStyle)}
+                  className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer ${
+                    scriptStyle === s.id
+                      ? 'border-amber-400 bg-stone-800 ring-1 ring-amber-400/50 shadow'
+                      : 'border-stone-800 bg-stone-950 hover:border-stone-700'
+                  }`}
+                >
+                  <div className="text-xs font-medium text-stone-200 mb-1">{s.label}</div>
+                  <div className={`text-[11px] truncate ${s.font}`}>{s.preview}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Archival Folio Embellishment */}
+          <div>
+            <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-2 font-mono">
+              Archival Page Embellishment
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {[
+                { id: 'wax-seal', label: 'Burgundy Wax Seal', symbol: '❖' },
+                { id: 'botanical-branch', label: 'Botanical Branch', symbol: '🌿' },
+                { id: 'postal-date-stamp', label: 'Postal Date Stamp', symbol: '1998' },
+                { id: 'antique-compass', label: 'Antique Compass', symbol: '🧭' },
+                { id: 'none', label: 'Minimalist (None)', symbol: '—' },
+              ].map((e) => (
+                <button
+                  key={e.id}
+                  type="button"
+                  onClick={() => setEmbellishment(e.id as EmbellishmentStyle)}
+                  className={`p-2 rounded-lg border text-center text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                    embellishment === e.id
+                      ? 'border-amber-400 bg-stone-800 text-amber-200 font-medium'
+                      : 'border-stone-800 bg-stone-950 text-stone-400 hover:border-stone-700'
+                  }`}
+                >
+                  <span className="text-sm">{e.symbol}</span>
+                  <span>{e.label}</span>
                 </button>
               ))}
             </div>

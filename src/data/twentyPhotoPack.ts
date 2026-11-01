@@ -15,6 +15,8 @@ export const SAMPLE_20_ALBUM_META: AlbumMetadata = {
   coverMaterial: 'forest-linen',
   foilStyle: 'gold',
   cornerStyle: 'gold-brass',
+  scriptStyle: 'fountain-pen',
+  embellishment: 'botanical-branch',
   createdAt: '2024-10-31',
 };
 

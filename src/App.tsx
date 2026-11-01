@@ -33,6 +33,8 @@ import { DuplicateReviewModal } from './components/organizer/DuplicateReviewModa
 import { TimelineModal } from './components/organizer/TimelineModal';
 import { PricingModal } from './components/pricing/PricingModal';
 import { AlbumSlideshowModal } from './components/album/AlbumSlideshowModal';
+import { PrintInspectorModal } from './components/print/PrintInspectorModal';
+import { balanceBookbindingSignatures } from './utils/printInspector';
 
 export default function App() {
   const [meta, setMeta] = useState<AlbumMetadata>(INITIAL_ALBUM_META);
@@ -52,6 +54,8 @@ export default function App() {
   const [isDuplicateReviewOpen, setIsDuplicateReviewOpen] = useState(false);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
+  const [isPrintInspectorOpen, setIsPrintInspectorOpen] = useState(false);
+  const [showPrintGuides, setShowPrintGuides] = useState(false);
   const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
   const [slideshowStartPhotoIndex, setSlideshowStartPhotoIndex] = useState(0);
 
@@ -240,6 +244,8 @@ export default function App() {
       coverMaterial: 'forest-linen',
       foilStyle: 'gold',
       cornerStyle: 'black-classic',
+      scriptStyle: 'serif-editorial',
+      embellishment: 'wax-seal',
       createdAt: new Date().toISOString().split('T')[0],
     });
     setCurrentSpreadIndex(0);
@@ -312,6 +318,13 @@ export default function App() {
     setMeta(prev => ({ ...prev, ...updatedMeta }));
   };
 
+  // Balance 4-page bookbinding signatures handler
+  const handleBalanceSignatures = () => {
+    const balancedPages = balanceBookbindingSignatures(pages);
+    setPages(balancedPages);
+    triggerTurnSound();
+  };
+
   const currentSpread = spreads[currentSpreadIndex] || spreads[0];
 
   return (
@@ -339,6 +352,9 @@ export default function App() {
         duplicateCount={duplicateCount}
         onOpenTimeline={() => setIsTimelineOpen(true)}
         onOpenPricing={() => setIsPricingOpen(true)}
+        onOpenPrintInspector={() => setIsPrintInspectorOpen(true)}
+        showPrintGuides={showPrintGuides}
+        onTogglePrintGuides={() => setShowPrintGuides(prev => !prev)}
         viewingMode={viewingMode}
         onToggleViewingMode={() => setViewingMode(prev => prev === 'warm-archival' ? 'dark-gallery' : 'warm-archival')}
       />
@@ -371,6 +387,7 @@ export default function App() {
               spread={currentSpread}
               meta={meta}
               photos={photos}
+              showPrintGuides={showPrintGuides}
               onUpdatePhotoCaption={handleUpdatePhotoCaption}
               onUpdateAlbumDescription={handleUpdateAlbumDescription}
               onUpdatePageTemplate={handleUpdatePageTemplate}
@@ -427,6 +444,16 @@ export default function App() {
       <PricingModal
         isOpen={isPricingOpen}
         onClose={() => setIsPricingOpen(false)}
+      />
+
+      <PrintInspectorModal
+        isOpen={isPrintInspectorOpen}
+        onClose={() => setIsPrintInspectorOpen(false)}
+        pages={pages}
+        photos={photos}
+        showPrintGuides={showPrintGuides}
+        onTogglePrintGuides={() => setShowPrintGuides(prev => !prev)}
+        onBalanceSignatures={handleBalanceSignatures}
       />
 
       <UploadPhotosModal

@@ -31,6 +31,42 @@ export type CornerStyle =
   | 'ivory-cloth' 
   | 'white-border';
 
+export type ScriptStyle = 
+  | 'serif-editorial'      // Classic Typeset Editorial Serif
+  | 'fountain-pen'        // Flowing Ink Calligraphy / Cursive
+  | 'vintage-typewriter'   // 1920s Mechanical Archival Typewriter
+  | 'architect-hand';      // Clean Understated Architectural Hand
+
+export type EmbellishmentStyle = 
+  | 'none'
+  | 'wax-seal'
+  | 'botanical-branch'
+  | 'postal-date-stamp'
+  | 'antique-compass';
+
+export interface PhotoPrintQuality {
+  photoId: string;
+  photoName: string;
+  estimatedDpi: number;
+  status: 'optimal' | 'acceptable' | 'warning';
+  recommendation: string;
+  dimensions: string;
+}
+
+export interface PrintPreFlightReport {
+  score: number; // 0 - 100
+  grade: 'A+ Fine Art Print Ready' | 'A High Quality' | 'B Good' | 'C Needs Review';
+  totalPhotos: number;
+  photosOptimal: number;
+  photosAcceptable: number;
+  photosWarning: number;
+  pageCount: number;
+  isSignatureCompliant: boolean; // multiple of 4
+  pagesNeededForSignature: number;
+  gutterRiskPhotos: number;
+  items: PhotoPrintQuality[];
+}
+
 export interface AlbumPhoto {
   id: string;
   name: string;
@@ -58,6 +94,7 @@ export interface AlbumPage {
   photoIds: string[];
   customTitle?: string;
   notes?: string;
+  embellishment?: EmbellishmentStyle;
 }
 
 export interface AlbumSpread {
@@ -76,5 +113,8 @@ export interface AlbumMetadata {
   coverMaterial: CoverMaterial;
   foilStyle: FoilStyle;
   cornerStyle: CornerStyle;
+  scriptStyle: ScriptStyle;
+  embellishment: EmbellishmentStyle;
   createdAt: string;
 }
+

@@ -99,6 +99,28 @@ Privacy in Picmorable is not a buried legal disclaimer; it is a living, visible 
 
 ---
 
+## 🖨️ Pre-Flight Print Inspector & Bookbinding Standards
+
+Picmorable bridges the digital screen with physical bookbindery printing:
+- **Automatic Resolution & DPI Inspector:** Checks pixel dimensions against physical page space and flags any photos below standard 300 DPI fine-art printing thresholds.
+- **Visual Trim Bleed & Gutter Crease Overlay:** Toggle real-time red dashed 3mm (0.125") physical cut lines and the 0.5-inch spine gutter crease directly over your album spreads to guarantee faces or text aren't clipped by print blades or swallowed by binding threads.
+- **Bookbinding Signature Compliance:** Traditional fine-art bookbinderies stitch folios in groups of 4 pages. Picmorable checks signature compliance and provides 1-click **"Add Parchment End-Sheets"** to automatically pad your book to exact press specifications.
+- **Professional Guidelines:** Built-in guidance for sRGB-to-CMYK press mapping (ISO Coated v2 / GRACoL) and paper stock recommendations.
+
+---
+
+## ✒️ Archival Penmanship & Folio Embellishments
+
+Give your memory book an authentic, heirloom feel with personal inscription styles:
+- **Penmanship & Script Styles:**
+  - *Classic Editorial Serif:* Elegant typeset captions.
+  - *Fountain Pen Cursive:* Flowing ink calligraphy with letter-spacing.
+  - *Mechanical Typewriter:* 1920s monospaced archival record.
+  - *Architect's Hand Lettering:* Clean, understated modern uppercase hand.
+- **Page Embellishments:** Choose between Burgundy Embossed Wax Seals (`❖`), delicate Botanical Branches (`🌿`), Postal Date Stamps, or Antique Nautical Compass Roses (`🧭`) on page corners.
+
+---
+
 ## 📦 Export in Your Chosen Photo Album Format
 
 Picmorable never simply hands you a messy pile of loose files. Your exported product matches your chosen photo book:

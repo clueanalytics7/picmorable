@@ -20,7 +20,9 @@ import {
   Copy,
   Calendar,
   SunMedium,
-  Moon
+  Moon,
+  Printer,
+  Scissors
 } from 'lucide-react';
 import { AlbumMetadata } from '../../types/album';
 
@@ -44,6 +46,9 @@ interface AlbumToolbarProps {
   duplicateCount: number;
   onOpenTimeline: () => void;
   onOpenPricing: () => void;
+  onOpenPrintInspector: () => void;
+  showPrintGuides: boolean;
+  onTogglePrintGuides: () => void;
   viewingMode: 'warm-archival' | 'dark-gallery';
   onToggleViewingMode: () => void;
 }
@@ -68,6 +73,9 @@ export const AlbumToolbar: React.FC<AlbumToolbarProps> = ({
   duplicateCount,
   onOpenTimeline,
   onOpenPricing,
+  onOpenPrintInspector,
+  showPrintGuides,
+  onTogglePrintGuides,
   viewingMode,
   onToggleViewingMode,
 }) => {
@@ -262,6 +270,24 @@ export const AlbumToolbar: React.FC<AlbumToolbarProps> = ({
             title="Transparent One-Time Commercial Pricing"
           >
             <span className="font-mono text-[11px]">Free / Pro</span>
+          </button>
+
+          {/* Pre-Flight Print Inspector Button */}
+          <button
+            type="button"
+            onClick={onOpenPrintInspector}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer border ${
+              showPrintGuides 
+                ? 'bg-amber-400 text-stone-950 font-bold border-amber-300 shadow' 
+                : 'bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white border-stone-800'
+            }`}
+            title="Pre-Flight Print Inspector: 300 DPI verification & bleed guides"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span className="hidden xl:inline">Print Inspector</span>
+            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-1 rounded border border-emerald-800">
+              300 DPI
+            </span>
           </button>
 
           {/* Album Settings */}

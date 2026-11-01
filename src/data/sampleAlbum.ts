@@ -15,6 +15,8 @@ export const INITIAL_ALBUM_META: AlbumMetadata = {
   coverMaterial: 'burgundy-leather',
   foilStyle: 'gold',
   cornerStyle: 'black-classic',
+  scriptStyle: 'serif-editorial',
+  embellishment: 'wax-seal',
   createdAt: '1998-08-28',
 };
 
