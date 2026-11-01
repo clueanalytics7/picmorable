@@ -18,6 +18,7 @@ import {
   buildAlbumSpreads, 
   playPageTurnSound 
 } from './utils/arrangementEngine';
+import { detectDuplicates } from './utils/duplicateDetector';
 import { AlbumToolbar } from './components/album/AlbumToolbar';
 import { AlbumCoverView } from './components/album/AlbumCoverView';
 import { AlbumSpreadView } from './components/album/AlbumSpreadView';
@@ -26,7 +27,11 @@ import { UploadPhotosModal } from './components/album/UploadPhotosModal';
 import { DownloadModal } from './components/album/DownloadModal';
 import { AlbumSettingsModal } from './components/album/AlbumSettingsModal';
 import { RearrangeModal } from './components/album/RearrangeModal';
-import { PrivacyModal } from './components/album/PrivacyModal';
+import { PrivacyCenterModal } from './components/privacy/PrivacyCenterModal';
+import { QuickOnboardingModal } from './components/onboarding/QuickOnboardingModal';
+import { DuplicateReviewModal } from './components/organizer/DuplicateReviewModal';
+import { TimelineModal } from './components/organizer/TimelineModal';
+import { PricingModal } from './components/pricing/PricingModal';
 import { AlbumSlideshowModal } from './components/album/AlbumSlideshowModal';
 
 export default function App() {
@@ -35,15 +40,27 @@ export default function App() {
   const [pages, setPages] = useState<AlbumPage[]>(INITIAL_PAGES);
   const [currentSpreadIndex, setCurrentSpreadIndex] = useState<number>(0); // 0 = Cover
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [viewingMode, setViewingMode] = useState<'warm-archival' | 'dark-gallery'>('warm-archival');
 
   // Modals state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isRearrangeOpen, setIsRearrangeOpen] = useState(false);
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isPrivacyCenterOpen, setIsPrivacyCenterOpen] = useState(false);
+  const [isQuickOnboardingOpen, setIsQuickOnboardingOpen] = useState(false);
+  const [isDuplicateReviewOpen, setIsDuplicateReviewOpen] = useState(false);
+  const [isTimelineOpen, setIsTimelineOpen] = useState(false);
+  const [isPricingOpen, setIsPricingOpen] = useState(false);
   const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
   const [slideshowStartPhotoIndex, setSlideshowStartPhotoIndex] = useState(0);
+
+  // Compute duplicate clusters count
+  const duplicateClusters = useMemo(() => {
+    return detectDuplicates(photos);
+  }, [photos]);
+
+  const duplicateCount = duplicateClusters.reduce((acc, g) => acc + (g.photos.length - 1), 0);
 
   // Handlers for Slideshow Presentation
   const handleOpenSlideshow = (photoIndex: number = 0) => {
@@ -100,7 +117,6 @@ export default function App() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't intercept if user is typing in input or textarea
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
@@ -163,10 +179,9 @@ export default function App() {
     let combinedPhotos: AlbumPhoto[];
     if (mode === 'replace') {
       combinedPhotos = newPhotos;
-      // Also update album title to reflect newly uploaded batch
       setMeta(prev => ({
         ...prev,
-        title: 'My Preserved Album',
+        title: 'Personal Life Archive',
         subtitle: `${newPhotos.length} personal photographs arranged on-device`,
         description: 'A newly arranged collection of photographs preserved with zero cloud transmission.',
       }));
@@ -175,15 +190,118 @@ export default function App() {
     }
 
     setPhotos(combinedPhotos);
-    const newPages = autoArrangePhotosIntoPages(combinedPhotos, strategy);
+    // Exclude duplicates from default spread binding
+    const activePhotos = combinedPhotos.filter(p => !p.isDuplicate);
+    const newPages = autoArrangePhotosIntoPages(activePhotos.length > 0 ? activePhotos : combinedPhotos, strategy);
     setPages(newPages);
-    setCurrentSpreadIndex(1); // Jump straight to opening spread
+    setCurrentSpreadIndex(1);
+    triggerTurnSound();
+  };
+
+  // Onboarding completion handler
+  const handleCompleteOnboarding = (newPhotos: AlbumPhoto[], customMeta?: Partial<AlbumMetadata>) => {
+    setPhotos(newPhotos);
+    if (customMeta) {
+      setMeta(prev => ({ ...prev, ...customMeta }));
+    }
+    // Filter out duplicates so only hero shots appear in page spreads
+    const activePhotos = newPhotos.filter(p => !p.isDuplicate);
+    const newPages = autoArrangePhotosIntoPages(activePhotos.length > 0 ? activePhotos : newPhotos, 'balanced');
+    setPages(newPages);
+    setCurrentSpreadIndex(1);
+    triggerTurnSound();
+  };
+
+  // Wipe sandbox handler (clears memory and resets to initial clean state)
+  const handleWipeSandbox = () => {
+    // Revoke any blob URLs
+    photos.forEach(p => {
+      if (p.url.startsWith('blob:')) {
+        URL.revokeObjectURL(p.url);
+      }
+    });
+
+    setPhotos([]);
+    setPages([
+      {
+        pageNumber: 1,
+        templateId: 'frontispiece',
+        photoIds: [],
+        customTitle: 'Opening Frontispiece',
+      },
+    ]);
+    setMeta({
+      id: 'album-empty',
+      title: 'Untouched Darkroom Album',
+      subtitle: 'Zero photos loaded in browser memory',
+      description: 'Your local sandbox memory is completely clear. Click Add Photos or Try 20 Photos to bind a new album.',
+      curator: 'Private Curator',
+      dateRange: 'Present',
+      coverMaterial: 'forest-linen',
+      foilStyle: 'gold',
+      cornerStyle: 'black-classic',
+      createdAt: new Date().toISOString().split('T')[0],
+    });
+    setCurrentSpreadIndex(0);
+    triggerTurnSound();
+  };
+
+  // Duplicate resolution handler: keeps chosen hero in book, flags others as excluded duplicates
+  const handleKeepHeroAndExcludeOthers = (groupId: string, keptHeroId: string) => {
+    const updatedPhotos = photos.map(p => {
+      if (p.duplicateGroupId === groupId || p.id === keptHeroId) {
+        return {
+          ...p,
+          isDuplicate: p.id !== keptHeroId,
+        };
+      }
+      return p;
+    });
+
+    setPhotos(updatedPhotos);
+
+    // Rebuild spreads with only active non-duplicate photos
+    const activePhotos = updatedPhotos.filter(p => !p.isDuplicate);
+    const updatedPages = autoArrangePhotosIntoPages(activePhotos, 'balanced');
+    setPages(updatedPages);
+    triggerTurnSound();
+  };
+
+  // Keep both frames in album
+  const handleKeepAllInAlbum = (groupId: string) => {
+    const updatedPhotos = photos.map(p => {
+      if (p.duplicateGroupId === groupId) {
+        return { ...p, isDuplicate: false };
+      }
+      return p;
+    });
+
+    setPhotos(updatedPhotos);
+    const updatedPages = autoArrangePhotosIntoPages(updatedPhotos, 'balanced');
+    setPages(updatedPages);
+    triggerTurnSound();
+  };
+
+  // Select event album from Timeline view
+  const handleSelectEventAlbum = (eventPhotos: AlbumPhoto[], eventTitle: string) => {
+    setMeta(prev => ({
+      ...prev,
+      title: eventTitle,
+      subtitle: `${eventPhotos.length} photographs from ${eventPhotos[0]?.date || 'this event chapter'}`,
+      description: `A focused hardcover chapter documenting ${eventTitle}. Preserved 100% on-device with zero cloud exposure.`,
+    }));
+
+    const activePhotos = eventPhotos.filter(p => !p.isDuplicate);
+    const eventPages = autoArrangePhotosIntoPages(activePhotos.length > 0 ? activePhotos : eventPhotos, 'balanced');
+    setPages(eventPages);
+    setCurrentSpreadIndex(1);
     triggerTurnSound();
   };
 
   // Rearrange album handler
   const handleConfirmRearrange = (strategy: 'balanced' | 'chronological' | 'single-hero' | 'scrapbook') => {
-    const newPages = autoArrangePhotosIntoPages(photos, strategy);
+    const activePhotos = photos.filter(p => !p.isDuplicate);
+    const newPages = autoArrangePhotosIntoPages(activePhotos.length > 0 ? activePhotos : photos, strategy);
     setPages(newPages);
     setCurrentSpreadIndex(1);
     triggerTurnSound();
@@ -197,7 +315,9 @@ export default function App() {
   const currentSpread = spreads[currentSpreadIndex] || spreads[0];
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-stone-100 flex flex-col justify-between selection:bg-amber-400 selection:text-stone-950 font-sans">
+    <div className={`min-h-screen text-stone-100 flex flex-col justify-between selection:bg-amber-400 selection:text-stone-950 font-sans transition-colors duration-300 ${
+      viewingMode === 'warm-archival' ? 'bg-[#1c1917]' : 'bg-[#0c0a09]'
+    }`}>
       {/* Top Navigation & Action Toolbar */}
       <AlbumToolbar
         meta={meta}
@@ -212,14 +332,25 @@ export default function App() {
         onOpenDownloadModal={() => setIsDownloadOpen(true)}
         onOpenRearrangeMenu={() => setIsRearrangeOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
-        onShowPrivacyInfo={() => setIsPrivacyOpen(true)}
+        onShowPrivacyCenter={() => setIsPrivacyCenterOpen(true)}
         onOpenSlideshow={() => handleOpenSlideshow(0)}
+        onOpenOnboarding={() => setIsQuickOnboardingOpen(true)}
+        onOpenDuplicates={() => setIsDuplicateReviewOpen(true)}
+        duplicateCount={duplicateCount}
+        onOpenTimeline={() => setIsTimelineOpen(true)}
+        onOpenPricing={() => setIsPricingOpen(true)}
+        viewingMode={viewingMode}
+        onToggleViewingMode={() => setViewingMode(prev => prev === 'warm-archival' ? 'dark-gallery' : 'warm-archival')}
       />
 
       {/* Main Archival Desk Workspace */}
       <main className="flex-1 flex flex-col items-center justify-center py-6 px-2 sm:px-6 relative overflow-x-hidden">
         {/* Subtle Archival Mat Backdrop */}
-        <div className="absolute inset-0 bg-[radial-gradient(#292524_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+        <div className={`absolute inset-0 [background-size:24px_24px] pointer-events-none transition-opacity ${
+          viewingMode === 'warm-archival'
+            ? 'bg-[radial-gradient(#292524_1px,transparent_1px)] opacity-40'
+            : 'bg-[radial-gradient(#1c1917_1px,transparent_1px)] opacity-20'
+        }`} />
 
         {/* View Switch: Closed Cover vs. Open Spread */}
         {currentSpreadIndex === 0 ? (
@@ -261,7 +392,43 @@ export default function App() {
         onOpenSlideshow={() => handleOpenSlideshow(0)}
       />
 
-      {/* Modals */}
+      {/* Modals & Flow Controllers */}
+      <QuickOnboardingModal
+        isOpen={isQuickOnboardingOpen}
+        onClose={() => setIsQuickOnboardingOpen(false)}
+        onCompleteOnboarding={handleCompleteOnboarding}
+        onOpenDuplicates={() => setIsDuplicateReviewOpen(true)}
+        onOpenTimeline={() => setIsTimelineOpen(true)}
+      />
+
+      <PrivacyCenterModal
+        isOpen={isPrivacyCenterOpen}
+        onClose={() => setIsPrivacyCenterOpen(false)}
+        photos={photos}
+        onWipeSandbox={handleWipeSandbox}
+      />
+
+      <DuplicateReviewModal
+        isOpen={isDuplicateReviewOpen}
+        onClose={() => setIsDuplicateReviewOpen(false)}
+        photos={photos}
+        onKeepHeroAndExcludeOthers={handleKeepHeroAndExcludeOthers}
+        onKeepAllInAlbum={handleKeepAllInAlbum}
+      />
+
+      <TimelineModal
+        isOpen={isTimelineOpen}
+        onClose={() => setIsTimelineOpen(false)}
+        photos={photos}
+        onSelectEventAlbum={handleSelectEventAlbum}
+        onPlayEventSlideshow={handleOpenSlideshow}
+      />
+
+      <PricingModal
+        isOpen={isPricingOpen}
+        onClose={() => setIsPricingOpen(false)}
+      />
+
       <UploadPhotosModal
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
@@ -289,11 +456,6 @@ export default function App() {
         onClose={() => setIsRearrangeOpen(false)}
         onConfirmRearrange={handleConfirmRearrange}
         photoCount={photos.length}
-      />
-
-      <PrivacyModal
-        isOpen={isPrivacyOpen}
-        onClose={() => setIsPrivacyOpen(false)}
       />
 
       <AlbumSlideshowModal

@@ -200,8 +200,8 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
               </p>
             )}
 
-            {(photo.date || photo.location) && (
-              <div className="flex items-center justify-center gap-2 mt-1 text-[10px] text-stone-500 font-sans tracking-tight">
+            {(photo.date || photo.location || photo.cameraModel) && (
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-1 text-[10px] text-stone-500 font-sans tracking-tight">
                 {photo.date && (
                   <span className="flex items-center gap-0.5">
                     <Calendar className="w-2.5 h-2.5 opacity-60" /> {photo.date}
@@ -212,6 +212,14 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
                   <span className="flex items-center gap-0.5">
                     <MapPin className="w-2.5 h-2.5 opacity-60" /> {photo.location}
                   </span>
+                )}
+                {photo.cameraModel && (
+                  <>
+                    <span>·</span>
+                    <span className="font-mono text-[9px] text-stone-600 bg-stone-100 px-1 rounded border border-stone-200">
+                      {photo.cameraModel.split(' ')[0]}
+                    </span>
+                  </>
                 )}
               </div>
             )}

@@ -43,6 +43,13 @@ export interface AlbumPhoto {
   height?: number;
   aspectRatio: 'landscape' | 'portrait' | 'square';
   rotation?: number; // subtle angle (-1.5 to 1.5 deg) for vintage scrapbook feel
+  fileSize?: number; // in bytes
+  cameraModel?: string; // e.g. "Canon EOS 5D Mark IV" or "iPhone 15 Pro"
+  isVerifiedMetadata?: boolean; // true if extracted from authentic camera EXIF
+  isDuplicate?: boolean; // flagged by local duplicate detection engine
+  duplicateGroupId?: string;
+  duplicateReason?: string;
+  eventTag?: string; // e.g. "Pacific Coast Highway", "Summer in the Cotswolds"
 }
 
 export interface AlbumPage {
