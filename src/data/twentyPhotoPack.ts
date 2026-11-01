@@ -17,6 +17,7 @@ export const SAMPLE_20_ALBUM_META: AlbumMetadata = {
   cornerStyle: 'gold-brass',
   scriptStyle: 'fountain-pen',
   embellishment: 'botanical-branch',
+  paperTone: 'warm-cream',
   createdAt: '2024-10-31',
 };
 

@@ -17,6 +17,7 @@ export const INITIAL_ALBUM_META: AlbumMetadata = {
   cornerStyle: 'black-classic',
   scriptStyle: 'serif-editorial',
   embellishment: 'wax-seal',
+  paperTone: 'warm-cream',
   createdAt: '1998-08-28',
 };
 

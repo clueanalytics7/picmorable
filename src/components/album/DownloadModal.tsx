@@ -21,7 +21,8 @@ import {
   generateAlbumPdf, 
   generateStandaloneAlbumHtml, 
   exportCompleteAlbumPackage,
-  MATERIAL_THEMES 
+  MATERIAL_THEMES,
+  PAPER_TONE_THEMES 
 } from '../../utils/albumExportEngine';
 import { generateAlbumTranscript, downloadBlob } from '../../utils/albumExporter';
 
@@ -50,6 +51,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
 
   const sanitizedTitle = meta.title.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 30);
   const theme = MATERIAL_THEMES[meta.coverMaterial] || MATERIAL_THEMES['burgundy-leather'];
+  const paperTheme = PAPER_TONE_THEMES[meta.paperTone || 'warm-cream'] || PAPER_TONE_THEMES['warm-cream'];
 
   // 1. Download Hardcover Book PDF
   const handleDownloadPdf = async () => {
@@ -122,20 +124,23 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl bg-stone-900 border border-stone-800 rounded-2xl shadow-2xl overflow-hidden text-stone-100 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-stone-800 flex items-center justify-between shrink-0 bg-stone-950/70">
+        <div className="px-6 py-4.5 border-b border-stone-800 flex items-center justify-between shrink-0 bg-stone-950/80">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
+            <div className="w-10 h-10 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
               <Download className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-serif text-base font-bold text-amber-100 flex items-center gap-2">
+              <h2 className="font-serif text-lg font-bold text-amber-100 flex flex-wrap items-center gap-2">
                 Download Your Photo Album
-                <span className="text-[10px] font-sans font-normal px-2 py-0.5 rounded bg-amber-900/60 text-amber-300 border border-amber-500/30">
+                <span className="text-xs font-sans font-medium px-2 py-0.5 rounded bg-amber-900/70 text-amber-300 border border-amber-500/40">
                   {theme.name}
                 </span>
+                <span className="text-xs font-sans font-medium px-2 py-0.5 rounded bg-stone-800 text-stone-300 border border-stone-700">
+                  {paperTheme.name}
+                </span>
               </h2>
-              <p className="text-[11px] text-stone-400">
-                Delivered in the exact format of your chosen hardcover photo album.
+              <p className="text-xs text-stone-300 mt-0.5">
+                Delivered in the exact format and paper tone of your chosen hardcover photo album.
               </p>
             </div>
           </div>
@@ -171,23 +176,23 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-sm font-semibold text-amber-100 group-hover:text-amber-300 flex items-center gap-2">
+                  <h3 className="font-serif text-sm sm:text-base font-semibold text-amber-100 group-hover:text-amber-300 flex items-center gap-2">
                     Hardcover Photo Book (.PDF)
-                    <span className="text-[10px] font-sans font-medium px-2 py-0.5 rounded bg-amber-400 text-stone-950">
+                    <span className="text-xs font-sans font-medium px-2 py-0.5 rounded bg-amber-400 text-stone-950">
                       Primary Format
                     </span>
                   </h3>
-                  <span className="text-xs text-amber-400/90 font-mono">Ready to view / print</span>
+                  <span className="text-xs sm:text-sm text-amber-300 font-mono">Ready to print</span>
                 </div>
-                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
-                  A high-resolution landscape photo book formatted in your chosen <strong>{theme.name}</strong> hardcover style. Features foil cover debossing, frontispiece narrative plate, and rearranged spreads with vintage photo corners and archival captions.
+                <p className="text-xs sm:text-sm text-stone-300 mt-1 leading-relaxed">
+                  A high-resolution landscape photo book formatted in your chosen <strong>{theme.name}</strong> hardcover style with <strong>{paperTheme.name}</strong>. Features foil cover debossing, frontispiece narrative plate, and rearranged spreads with vintage photo corners and archival captions.
                 </p>
-                <div className="mt-2.5 flex items-center gap-3 text-[11px] text-stone-500 font-mono">
+                <div className="mt-2.5 flex items-center gap-3 text-xs text-stone-400 font-mono">
                   <span>{pages.length} pages</span>
                   <span>·</span>
                   <span>{photos.length} photographs</span>
                   <span>·</span>
-                  <span className="text-amber-400/80">Print-ready landscape</span>
+                  <span className="text-amber-300 font-medium">Print-ready landscape</span>
                 </div>
               </div>
             </div>
@@ -204,23 +209,23 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-sm font-semibold text-stone-200 group-hover:text-amber-200 flex items-center gap-2">
+                  <h3 className="font-serif text-sm sm:text-base font-semibold text-stone-200 group-hover:text-amber-200 flex items-center gap-2">
                     Interactive Standalone Photo Album (.HTML)
-                    <span className="text-[10px] font-sans font-medium px-2 py-0.5 rounded bg-stone-800 text-stone-300">
+                    <span className="text-xs font-sans font-medium px-2 py-0.5 rounded bg-stone-800 text-amber-300 border border-stone-700">
                       Offline App
                     </span>
                   </h3>
-                  <span className="text-xs text-stone-400 font-mono">Runs anywhere</span>
+                  <span className="text-xs text-stone-300 font-mono">Runs anywhere</span>
                 </div>
-                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                <p className="text-xs sm:text-sm text-stone-300 mt-1 leading-relaxed">
                   A self-contained single-file photo album you can double-click on any computer offline. Includes the tactile hardcover binding, page-turning animation, paper-rustle audio, and integrated full-screen presentation slideshow.
                 </p>
-                <div className="mt-2.5 flex items-center gap-3 text-[11px] text-stone-500 font-mono">
+                <div className="mt-2.5 flex items-center gap-3 text-xs text-stone-400 font-mono">
                   <span>Zero dependencies</span>
                   <span>·</span>
                   <span>Works in Chrome, Safari, Edge</span>
                   <span>·</span>
-                  <span className="text-emerald-400">Offline forever</span>
+                  <span className="text-emerald-400 font-medium">Offline forever</span>
                 </div>
               </div>
             </div>
@@ -237,15 +242,15 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-sm font-semibold text-stone-200 group-hover:text-amber-200">
+                  <h3 className="font-serif text-sm sm:text-base font-semibold text-stone-200 group-hover:text-amber-200">
                     Complete Archival Package (.ZIP)
                   </h3>
-                  <span className="text-[10px] font-mono text-stone-400">All Formats</span>
+                  <span className="text-xs font-mono text-stone-300 bg-stone-800 px-2 py-0.5 rounded">All Formats</span>
                 </div>
-                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                <p className="text-xs sm:text-sm text-stone-300 mt-1 leading-relaxed">
                   Bundles the Hardcover Book (.PDF), Standalone Interactive Album (.HTML), high-resolution photographs, and formatted story transcript into one archival zip.
                 </p>
-                <div className="mt-2 text-[11px] text-stone-500 font-mono">
+                <div className="mt-2 text-xs text-stone-400 font-mono">
                   Complete preservation backup for family archives or cold storage
                 </div>
               </div>
@@ -258,11 +263,11 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             >
               <div className="flex items-center gap-3">
                 <FileText className="w-4 h-4 text-stone-400 group-hover:text-amber-300" />
-                <span className="text-xs font-serif text-stone-300 group-hover:text-amber-200">
+                <span className="text-xs sm:text-sm font-serif text-stone-200 group-hover:text-amber-200">
                   Album Story & Photo Captions Transcript (.TXT)
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-stone-500">Instant Text Record</span>
+              <span className="text-xs font-mono text-stone-400">Instant Text Record</span>
             </div>
           </div>
 

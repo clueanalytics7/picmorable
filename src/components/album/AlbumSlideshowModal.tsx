@@ -19,7 +19,10 @@ import {
   MapPin, 
   Sparkles, 
   Clock,
-  BookOpen
+  BookOpen,
+  Mic,
+  Volume2,
+  Square
 } from 'lucide-react';
 import { AlbumMetadata, AlbumPhoto, AlbumPage } from '../../types/album';
 
@@ -47,11 +50,22 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
   const [showInfoDrawer, setShowInfoDrawer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isPlayingVoice, setIsPlayingVoice] = useState(false);
 
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const progressTimerRef = useRef<NodeJS.Timeout | null>(null);
   const thumbnailScrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Stop voice audio when photo changes or modal closes
+  useEffect(() => {
+    if (voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current = null;
+    }
+    setIsPlayingVoice(false);
+  }, [currentIndex, isOpen]);
 
   // Sync initial photo when modal opens
   useEffect(() => {
@@ -132,6 +146,28 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
     }
   };
 
+  // Voice note play/pause handler
+  const handleToggleVoicePlay = () => {
+    if (!currentPhoto?.voiceNoteUrl) return;
+
+    if (isPlayingVoice) {
+      voiceAudioRef.current?.pause();
+      setIsPlayingVoice(false);
+    } else {
+      if (!voiceAudioRef.current || voiceAudioRef.current.src !== currentPhoto.voiceNoteUrl) {
+        voiceAudioRef.current = new Audio(currentPhoto.voiceNoteUrl);
+        voiceAudioRef.current.onended = () => setIsPlayingVoice(false);
+        voiceAudioRef.current.onerror = () => setIsPlayingVoice(false);
+      }
+      voiceAudioRef.current.play().then(() => {
+        setIsPlayingVoice(true);
+      }).catch((e) => {
+        console.warn('Voice play blocked', e);
+        setIsPlayingVoice(false);
+      });
+    }
+  };
+
   // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
@@ -183,55 +219,55 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
       <div className="relative z-20 px-4 sm:px-8 py-3.5 bg-gradient-to-b from-stone-950 via-stone-950/80 to-transparent flex items-center justify-between gap-4 border-b border-stone-800/40">
         {/* Left: Album Meta & Photo Counter */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-300">
-            <BookOpen className="w-4 h-4" />
+          <div className="w-9 h-9 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-300">
+            <BookOpen className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-amber-100 text-sm tracking-wide">
+              <span className="font-serif font-bold text-amber-100 text-sm sm:text-base tracking-wide">
                 {meta.title}
               </span>
               {currentPage && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800/80 text-stone-300 border border-stone-700/60">
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-stone-800 text-amber-300 border border-stone-700">
                   Plate {currentPage.pageNumber}
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-stone-400 font-mono">
+            <p className="text-xs text-stone-300 font-mono">
               Photo {currentIndex + 1} of {photos.length}
             </p>
           </div>
         </div>
 
         {/* Center: Autoplay Controls & Speed */}
-        <div className="flex items-center gap-2 sm:gap-3 bg-stone-900/90 border border-stone-800/80 rounded-full px-3 py-1.5 shadow-lg backdrop-blur-md">
+        <div className="flex items-center gap-2 sm:gap-3 bg-stone-900/90 border border-stone-800 rounded-full px-3.5 py-1.5 shadow-lg backdrop-blur-md">
           {/* Play/Pause Button */}
           <button
             type="button"
             onClick={() => setIsPlaying((prev) => !prev)}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 hover:bg-amber-300 text-stone-950 font-medium text-xs transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 hover:bg-amber-300 text-stone-950 font-medium text-xs sm:text-sm transition-colors cursor-pointer"
             title={isPlaying ? 'Pause presentation (Space)' : 'Play presentation (Space)'}
           >
             {isPlaying ? (
               <>
-                <Pause className="w-3.5 h-3.5 fill-current" />
+                <Pause className="w-4 h-4 fill-current" />
                 <span>Pause</span>
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 fill-current" />
+                <Play className="w-4 h-4 fill-current" />
                 <span>Play</span>
               </>
             )}
           </button>
 
           {/* Speed Selector */}
-          <div className="flex items-center gap-1 text-[11px] text-stone-400 border-l border-stone-700/60 pl-2">
-            <Clock className="w-3 h-3 text-stone-500" />
+          <div className="flex items-center gap-1.5 text-xs text-stone-300 border-l border-stone-700 pl-2.5">
+            <Clock className="w-3.5 h-3.5 text-stone-400" />
             <select
               value={intervalDuration}
               onChange={(e) => setIntervalDuration(Number(e.target.value))}
-              className="bg-transparent text-stone-300 text-[11px] font-mono focus:outline-none cursor-pointer"
+              className="bg-transparent text-stone-200 text-xs font-mono focus:outline-none cursor-pointer"
               title="Slideshow interval speed"
             >
               <option value={3000} className="bg-stone-900 text-stone-200">Fast (3s)</option>
@@ -340,34 +376,67 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
 
           {/* Archival Caption Card Plate */}
           {showCaptions && (
-            <div className="mt-4 max-w-2xl w-full bg-stone-950/85 border border-stone-800 rounded-xl px-5 py-3 text-center shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-2 duration-200">
-              <p className="font-serif italic text-sm sm:text-base text-amber-100 tracking-wide leading-relaxed">
+            <div className="mt-4 max-w-2xl w-full bg-stone-950/90 border border-stone-800 rounded-xl px-6 py-3.5 text-center shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-2 duration-200">
+              <p className="font-serif italic text-base sm:text-lg text-amber-100 tracking-wide leading-relaxed">
                 "{currentPhoto.caption || currentPhoto.name}"
               </p>
 
               {(currentPhoto.date || currentPhoto.location || currentPage) && (
-                <div className="flex items-center justify-center gap-3 mt-2 text-xs text-stone-400 font-mono">
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-2 text-xs sm:text-sm text-stone-300 font-mono">
                   {currentPhoto.date && (
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-amber-400" />
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-amber-400" />
                       {currentPhoto.date}
                     </span>
                   )}
                   {currentPhoto.date && currentPhoto.location && <span>·</span>}
                   {currentPhoto.location && (
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-amber-400" />
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-amber-400" />
                       {currentPhoto.location}
                     </span>
                   )}
                   {currentPage && (
                     <>
                       <span>·</span>
-                      <span className="text-stone-500">
+                      <span className="text-stone-400">
                         Album Plate {currentPage.pageNumber} ({currentPage.templateId})
                       </span>
                     </>
                   )}
+                </div>
+              )}
+
+              {/* Voice Memory Note Player if recorded on-device */}
+              {currentPhoto.voiceNoteUrl && (
+                <div className="mt-3 flex items-center justify-center pt-2 border-t border-stone-800/80">
+                  <button
+                    type="button"
+                    onClick={handleToggleVoicePlay}
+                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-sans transition-all cursor-pointer shadow-md ${
+                      isPlayingVoice
+                        ? 'bg-amber-400 text-stone-950 font-bold animate-pulse'
+                        : 'bg-amber-950/80 border border-amber-600/70 text-amber-200 hover:bg-amber-900'
+                    }`}
+                    title="Play spoken voice memory recorded on-device"
+                  >
+                    {isPlayingVoice ? (
+                      <>
+                        <Square className="w-3.5 h-3.5 fill-current" />
+                        <span>Stop Spoken Memory</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-amber-400" />
+                        <span>Listen to Spoken Memory</span>
+                      </>
+                    )}
+                    {currentPhoto.voiceDuration && (
+                      <span className="font-mono text-xs opacity-80">
+                        ({currentPhoto.voiceDuration}s)
+                      </span>
+                    )}
+                  </button>
                 </div>
               )}
             </div>
@@ -376,10 +445,10 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
 
         {/* Info Drawer (Flyout when toggled) */}
         {showInfoDrawer && (
-          <div className="absolute right-4 top-16 z-40 w-72 bg-stone-900/95 border border-stone-800 rounded-xl p-4 shadow-2xl backdrop-blur-md text-xs space-y-3 animate-in fade-in slide-in-from-right-4 duration-200">
+          <div className="absolute right-4 top-16 z-40 w-80 bg-stone-900/95 border border-stone-800 rounded-xl p-4 shadow-2xl backdrop-blur-md text-xs sm:text-sm space-y-3 animate-in fade-in slide-in-from-right-4 duration-200">
             <div className="flex items-center justify-between pb-2 border-b border-stone-800">
-              <div className="flex items-center gap-1.5 font-serif font-bold text-amber-200">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <div className="flex items-center gap-2 font-serif font-bold text-amber-200 text-sm sm:text-base">
+                <Sparkles className="w-4 h-4 text-amber-400" />
                 <span>Photograph Info</span>
               </div>
               <button
@@ -387,34 +456,40 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
                 onClick={() => setShowInfoDrawer(false)}
                 className="text-stone-400 hover:text-white cursor-pointer"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-2 text-stone-300 font-mono text-[11px]">
+            <div className="space-y-2 text-stone-300 font-mono text-xs sm:text-sm">
               <div>
-                <span className="text-stone-500 block">Filename:</span>
-                <span className="truncate block text-stone-200">{currentPhoto.name}</span>
+                <span className="text-stone-400 block text-xs">Filename:</span>
+                <span className="truncate block text-stone-100 font-medium">{currentPhoto.name}</span>
               </div>
               <div>
-                <span className="text-stone-500 block">Aspect Ratio:</span>
-                <span className="capitalize">{currentPhoto.aspectRatio}</span>
+                <span className="text-stone-400 block text-xs">Aspect Ratio:</span>
+                <span className="capitalize text-stone-200">{currentPhoto.aspectRatio}</span>
               </div>
               {currentPhoto.date && (
                 <div>
-                  <span className="text-stone-500 block">Capture Date:</span>
-                  <span>{currentPhoto.date}</span>
+                  <span className="text-stone-400 block text-xs">Capture Date:</span>
+                  <span className="text-stone-200">{currentPhoto.date}</span>
                 </div>
               )}
               {currentPhoto.location && (
                 <div>
-                  <span className="text-stone-500 block">Location:</span>
-                  <span>{currentPhoto.location}</span>
+                  <span className="text-stone-400 block text-xs">Location:</span>
+                  <span className="text-stone-200">{currentPhoto.location}</span>
+                </div>
+              )}
+              {currentPhoto.voiceNoteUrl && (
+                <div>
+                  <span className="text-stone-400 block text-xs">Voice Memory:</span>
+                  <span className="text-amber-300">Recorded ({currentPhoto.voiceDuration || 15}s audio clip)</span>
                 </div>
               )}
               <div>
-                <span className="text-stone-500 block">Preservation Status:</span>
-                <span className="text-emerald-400">100% On-Device (0 KB uploaded)</span>
+                <span className="text-stone-400 block text-xs">Preservation Status:</span>
+                <span className="text-emerald-400 font-semibold">100% On-Device (0 KB uploaded)</span>
               </div>
             </div>
           </div>
@@ -422,10 +497,10 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
       </div>
 
       {/* Bottom Thumbnail Scrubber Filmstrip */}
-      <div className="relative z-20 bg-stone-950/95 border-t border-stone-800/80 px-4 py-2.5">
+      <div className="relative z-20 bg-stone-950/95 border-t border-stone-800 px-4 py-3">
         <div
           ref={thumbnailScrollRef}
-          className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-thin scrollbar-thumb-stone-700 scrollbar-track-transparent max-w-6xl mx-auto"
+          className="flex items-center gap-2.5 overflow-x-auto py-1 scrollbar-thin scrollbar-thumb-stone-700 scrollbar-track-transparent max-w-6xl mx-auto"
         >
           {photos.map((p, idx) => {
             const isSelected = idx === currentIndex;
@@ -437,12 +512,12 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
                   setProgress(0);
                   setCurrentIndex(idx);
                 }}
-                className={`relative shrink-0 rounded overflow-hidden border-2 transition-all cursor-pointer ${
+                className={`relative shrink-0 rounded-md overflow-hidden border-2 transition-all cursor-pointer ${
                   isSelected
                     ? 'border-amber-400 scale-105 shadow-lg shadow-amber-400/20'
                     : 'border-stone-800 opacity-60 hover:opacity-100 hover:border-stone-600'
                 }`}
-                style={{ width: '56px', height: '42px' }}
+                style={{ width: '64px', height: '48px' }}
                 title={`Jump to photo ${idx + 1}: ${p.caption || p.name}`}
               >
                 <img
@@ -450,16 +525,21 @@ export const AlbumSlideshowModal: React.FC<AlbumSlideshowModalProps> = ({
                   alt={p.name}
                   className="w-full h-full object-cover select-none"
                 />
-                <span className="absolute bottom-0 right-0 bg-black/80 text-[9px] font-mono px-1 text-stone-300">
+                <span className="absolute bottom-0 right-0 bg-black/85 text-xs font-mono px-1.5 py-0.5 text-stone-200">
                   {idx + 1}
                 </span>
+                {p.voiceNoteUrl && (
+                  <span className="absolute top-0.5 right-0.5 bg-amber-500 text-stone-950 rounded-full p-0.5 shadow">
+                    <Mic className="w-2.5 h-2.5" />
+                  </span>
+                )}
               </button>
             );
           })}
         </div>
 
         {/* Keyboard hints footer */}
-        <div className="text-center text-[10px] text-stone-500 font-mono mt-1 hidden sm:block">
+        <div className="text-center text-xs text-stone-400 font-mono mt-1.5 hidden sm:block">
           [Space] Play/Pause · [← / →] Navigate · [F] Fullscreen · [C] Toggle Caption · [Esc] Exit
         </div>
       </div>

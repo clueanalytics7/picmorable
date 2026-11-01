@@ -246,6 +246,7 @@ export default function App() {
       cornerStyle: 'black-classic',
       scriptStyle: 'serif-editorial',
       embellishment: 'wax-seal',
+      paperTone: 'warm-cream',
       createdAt: new Date().toISOString().split('T')[0],
     });
     setCurrentSpreadIndex(0);
@@ -325,6 +326,41 @@ export default function App() {
     triggerTurnSound();
   };
 
+  // Voice note save handler (100% client-side memory)
+  const handleSaveVoiceNote = (photoId: string, audioUrl: string, duration: number) => {
+    setPhotos(prev =>
+      prev.map(p => (p.id === photoId ? { ...p, voiceNoteUrl: audioUrl, voiceDuration: duration } : p))
+    );
+  };
+
+  // Reorder spreads in filmstrip
+  const handleMoveSpread = (spreadIndex: number, direction: 'left' | 'right') => {
+    const targetSpreadIdx = direction === 'left' ? spreadIndex - 1 : spreadIndex + 1;
+    if (targetSpreadIdx < 1 || targetSpreadIdx >= spreads.length) return;
+
+    // Each spread (1-indexed) corresponds to 2 pages (or 1 if odd total)
+    const pageIdxA = (spreadIndex - 1) * 2;
+    const pageIdxB = (targetSpreadIdx - 1) * 2;
+
+    setPages(prev => {
+      const newPages = [...prev];
+      const chunkA = newPages.slice(pageIdxA, pageIdxA + 2);
+      const chunkB = newPages.slice(pageIdxB, pageIdxB + 2);
+      if (chunkA.length === 0 || chunkB.length === 0) return prev;
+
+      const minIdx = Math.min(pageIdxA, pageIdxB);
+      if (direction === 'left') {
+        newPages.splice(minIdx, chunkB.length + chunkA.length, ...chunkA, ...chunkB);
+      } else {
+        newPages.splice(minIdx, chunkA.length + chunkB.length, ...chunkB, ...chunkA);
+      }
+      return newPages.map((p, idx) => ({ ...p, pageNumber: idx + 1 }));
+    });
+
+    setCurrentSpreadIndex(targetSpreadIdx);
+    triggerTurnSound();
+  };
+
   const currentSpread = spreads[currentSpreadIndex] || spreads[0];
 
   return (
@@ -380,6 +416,7 @@ export default function App() {
             onEditCoverSettings={() => setIsSettingsOpen(true)}
             onQuickMaterialChange={(mat) => setMeta(prev => ({ ...prev, coverMaterial: mat }))}
             onQuickFoilChange={(foil) => setMeta(prev => ({ ...prev, foilStyle: foil }))}
+            onUpdateMetaField={(field, val) => setMeta(prev => ({ ...prev, [field]: val }))}
           />
         ) : (
           <div className="w-full flex flex-col items-center">
@@ -394,6 +431,7 @@ export default function App() {
               onRemovePhotoFromPage={handleRemovePhoto}
               onOpenUploadModal={() => setIsUploadOpen(true)}
               onViewPhoto={handleViewPhoto}
+              onSaveVoiceNote={handleSaveVoiceNote}
             />
           </div>
         )}
@@ -407,6 +445,7 @@ export default function App() {
         photos={photos}
         onSelectSpread={handleSelectSpread}
         onOpenSlideshow={() => handleOpenSlideshow(0)}
+        onMoveSpread={handleMoveSpread}
       />
 
       {/* Modals & Flow Controllers */}

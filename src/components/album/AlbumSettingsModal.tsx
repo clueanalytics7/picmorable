@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { X, SlidersHorizontal, Check, Feather, Sparkles } from 'lucide-react';
-import { AlbumMetadata, CoverMaterial, FoilStyle, CornerStyle, ScriptStyle, EmbellishmentStyle } from '../../types/album';
+import { AlbumMetadata, CoverMaterial, FoilStyle, CornerStyle, ScriptStyle, EmbellishmentStyle, PaperTone } from '../../types/album';
 
 interface AlbumSettingsModalProps {
   isOpen: boolean;
@@ -30,6 +30,7 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
   const [cornerStyle, setCornerStyle] = useState<CornerStyle>(meta.cornerStyle);
   const [scriptStyle, setScriptStyle] = useState<ScriptStyle>(meta.scriptStyle || 'serif-editorial');
   const [embellishment, setEmbellishment] = useState<EmbellishmentStyle>(meta.embellishment || 'wax-seal');
+  const [paperTone, setPaperTone] = useState<PaperTone>(meta.paperTone || 'warm-cream');
 
   if (!isOpen) return null;
 
@@ -45,6 +46,7 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
       cornerStyle,
       scriptStyle,
       embellishment,
+      paperTone,
     });
     onClose();
   };
@@ -87,7 +89,7 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1 font-mono">
+              <label className="block text-xs sm:text-sm font-semibold text-stone-300 uppercase tracking-wider mb-1.5 font-mono">
                 Album Subtitle / Dedication
               </label>
               <input
@@ -95,33 +97,33 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
                 value={subtitle}
                 onChange={(e) => setSubtitle(e.target.value)}
                 placeholder="e.g. Two weeks along the Cornish coastal footpaths"
-                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2 text-xs font-serif text-stone-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2.5 text-sm font-serif text-stone-200 focus:outline-none focus:border-amber-400"
               />
             </div>
           </div>
 
           {/* Dedicated Field: Entire Album Narrative Description */}
           <div>
-            <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1 font-mono flex items-center gap-1.5">
-              <Feather className="w-3.5 h-3.5 text-amber-400" />
+            <label className="block text-xs sm:text-sm font-semibold text-stone-300 uppercase tracking-wider mb-1 font-mono flex items-center gap-2">
+              <Feather className="w-4 h-4 text-amber-400" />
               Description of the Entire Album
             </label>
-            <p className="text-[11px] text-stone-400 mb-1.5">
-              Write a brief or rich overview of this album. This narrative is printed on the frontispiece and included in exports.
+            <p className="text-xs text-stone-300 mb-2">
+              Write a brief or rich overview of this album. This narrative is printed on the frontispiece plate and included in all downloads.
             </p>
             <textarea
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Write the story of this album, the people in it, and why this time in your life is worth remembering..."
-              className="w-full bg-stone-950 border border-stone-700 rounded-lg p-3 text-xs font-serif text-stone-200 focus:outline-none focus:border-amber-400 leading-relaxed"
+              className="w-full bg-stone-950 border border-stone-700 rounded-lg p-3 text-sm font-serif text-stone-200 focus:outline-none focus:border-amber-400 leading-relaxed"
             />
           </div>
 
           {/* Archive & Date Details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[11px] font-mono text-stone-400 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-mono text-stone-300 uppercase tracking-wider mb-1.5">
                 Curator / Family Name
               </label>
               <input
@@ -129,12 +131,12 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
                 value={curator}
                 onChange={(e) => setCurator(e.target.value)}
                 placeholder="e.g. The Harrison Family Archive"
-                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2 text-xs text-stone-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-400"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono text-stone-400 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-mono text-stone-300 uppercase tracking-wider mb-1.5">
                 Date / Time Period
               </label>
               <input
@@ -142,7 +144,7 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
                 placeholder="e.g. August 1998"
-                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2 text-xs text-stone-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-stone-950 border border-stone-700 rounded-lg p-2.5 text-sm text-stone-200 focus:outline-none focus:border-amber-400"
               />
             </div>
           </div>
@@ -290,6 +292,41 @@ export const AlbumSettingsModal: React.FC<AlbumSettingsModalProps> = ({
                 >
                   <span className="text-sm">{e.symbol}</span>
                   <span>{e.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Archival Parchment Paper Tone */}
+          <div>
+            <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-2 font-mono">
+              Archival Paper Stock & Tone
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { id: 'warm-cream', label: 'Warm Cream Parchment', color: '#faf8f2', text: 'text-stone-900', desc: 'Classic archival fine-art stock' },
+                { id: 'aged-sepia', label: 'Aged Sepia Vellum', color: '#f4ecd8', text: 'text-amber-950', desc: '19th century warm golden patina' },
+                { id: 'cotton-rag', label: 'Cotton Rag Off-White', color: '#f8f6f0', text: 'text-stone-900', desc: 'Woven museum watercolor texture' },
+                { id: 'gallery-lustre', label: 'Gallery Lustre White', color: '#ffffff', text: 'text-neutral-900', desc: 'Modern crisp photographic white' },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setPaperTone(p.id as PaperTone)}
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-2.5 ${
+                    paperTone === p.id
+                      ? 'border-amber-400 bg-stone-800 ring-1 ring-amber-400/50 shadow'
+                      : 'border-stone-800 bg-stone-950 hover:border-stone-700'
+                  }`}
+                >
+                  <span
+                    className="w-5 h-5 rounded-full border border-stone-400 shrink-0 mt-0.5 shadow-inner"
+                    style={{ backgroundColor: p.color }}
+                  />
+                  <div>
+                    <div className="text-xs font-semibold text-stone-200">{p.label}</div>
+                    <div className="text-[11px] text-stone-400 mt-0.5">{p.desc}</div>
+                  </div>
                 </button>
               ))}
             </div>

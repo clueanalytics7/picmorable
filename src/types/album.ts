@@ -67,6 +67,12 @@ export interface PrintPreFlightReport {
   items: PhotoPrintQuality[];
 }
 
+export type PaperTone = 
+  | 'warm-cream'        // Classic warm cream parchment
+  | 'aged-sepia'        // Aged vellum with warm amber patina
+  | 'cotton-rag'        // Fine art cotton rag off-white
+  | 'gallery-lustre';   // Crisp archival studio white
+
 export interface AlbumPhoto {
   id: string;
   name: string;
@@ -86,6 +92,8 @@ export interface AlbumPhoto {
   duplicateGroupId?: string;
   duplicateReason?: string;
   eventTag?: string; // e.g. "Pacific Coast Highway", "Summer in the Cotswolds"
+  voiceNoteUrl?: string; // local blob URL for 15-30s voice recollection
+  voiceDuration?: number; // duration in seconds
 }
 
 export interface AlbumPage {
@@ -115,6 +123,8 @@ export interface AlbumMetadata {
   cornerStyle: CornerStyle;
   scriptStyle: ScriptStyle;
   embellishment: EmbellishmentStyle;
+  paperTone: PaperTone;
   createdAt: string;
 }
+
 

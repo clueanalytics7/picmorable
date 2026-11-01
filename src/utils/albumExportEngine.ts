@@ -104,6 +104,46 @@ export const MATERIAL_THEMES: Record<
   },
 };
 
+export const PAPER_TONE_THEMES: Record<
+  string,
+  {
+    bgHex: string;
+    borderHex: string;
+    cardBgHex: string;
+    textHex: string;
+    name: string;
+  }
+> = {
+  'warm-cream': {
+    bgHex: '#faf7f0',
+    borderHex: '#ded6c3',
+    cardBgHex: '#f3ede0',
+    textHex: '#382813',
+    name: 'Warm Cream Parchment',
+  },
+  'aged-sepia': {
+    bgHex: '#f3ede2',
+    borderHex: '#cbbda7',
+    cardBgHex: '#e8dcce',
+    textHex: '#3b2b1a',
+    name: 'Aged Sepia Archival',
+  },
+  'cotton-rag': {
+    bgHex: '#fcfbf8',
+    borderHex: '#dad7ce',
+    cardBgHex: '#f4f3ed',
+    textHex: '#2b2a28',
+    name: 'Cotton Rag Fine Art',
+  },
+  'gallery-lustre': {
+    bgHex: '#f6f7f9',
+    borderHex: '#cfd4dc',
+    cardBgHex: '#eaedf2',
+    textHex: '#1f242d',
+    name: 'Gallery Lustre Crisp',
+  },
+};
+
 /**
  * Builds a multi-page, landscape Archival Hardcover Photo Book PDF.
  */
@@ -124,6 +164,8 @@ export async function generateAlbumPdf(
   const pageWidth = 297;
   const pageHeight = 210;
   const theme = MATERIAL_THEMES[meta.coverMaterial] || MATERIAL_THEMES['burgundy-leather'];
+  const paperToneKey = meta.paperTone || 'warm-cream';
+  const paperTheme = PAPER_TONE_THEMES[paperToneKey] || PAPER_TONE_THEMES['warm-cream'];
   const photoMap = new Map(photos.map((p) => [p.id, p]));
 
   // Cache photo base64 data URLs
@@ -221,11 +263,11 @@ export async function generateAlbumPdf(
   doc.addPage('a4', 'landscape');
 
   // Parchment paper background
-  doc.setFillColor('#faf7f0');
+  doc.setFillColor(paperTheme.bgHex);
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
   // Archival inner border
-  doc.setDrawColor('#d6cdb8');
+  doc.setDrawColor(paperTheme.borderHex);
   doc.setLineWidth(0.5);
   doc.rect(14, 12, pageWidth - 28, pageHeight - 24);
 
@@ -241,8 +283,8 @@ export async function generateAlbumPdf(
   doc.text(meta.subtitle || 'Personal Photographic Retrospective', pageWidth / 2, 35, { align: 'center' });
 
   // Left column: Narrative Story
-  doc.setFillColor('#f3ede0');
-  doc.setDrawColor('#cfc4af');
+  doc.setFillColor(paperTheme.cardBgHex);
+  doc.setDrawColor(paperTheme.borderHex);
   doc.rect(22, 45, 125, 138, 'FD');
 
   doc.setFont('times', 'bold');
@@ -319,11 +361,11 @@ export async function generateAlbumPdf(
     doc.addPage('a4', 'landscape');
 
     // Page parchment background
-    doc.setFillColor('#faf8f2');
+    doc.setFillColor(paperTheme.bgHex);
     doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
     // Border
-    doc.setDrawColor('#ded6c3');
+    doc.setDrawColor(paperTheme.borderHex);
     doc.setLineWidth(0.4);
     doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
 
@@ -545,12 +587,15 @@ export async function generateStandaloneAlbumHtml(
   onProgress?.(65, 'Building self-contained album structure & offline engine...');
 
   const theme = MATERIAL_THEMES[meta.coverMaterial] || MATERIAL_THEMES['burgundy-leather'];
+  const paperToneKey = meta.paperTone || 'warm-cream';
+  const paperTheme = PAPER_TONE_THEMES[paperToneKey] || PAPER_TONE_THEMES['warm-cream'];
 
   const albumPayload = JSON.stringify({
     meta,
     photos: photosWithData,
     pages,
     theme,
+    paperTheme,
   });
 
   const html = `<!DOCTYPE html>
@@ -567,8 +612,10 @@ export async function generateStandaloneAlbumHtml(
       --cover-spine: ${theme.spineHex};
       --cover-text: ${theme.textHex};
       --foil-gold: ${theme.goldHex};
-      --parchment: #faf8f2;
-      --parchment-border: #ded6c3;
+      --parchment: ${paperTheme.bgHex};
+      --parchment-border: ${paperTheme.borderHex};
+      --parchment-card: ${paperTheme.cardBgHex};
+      --parchment-text: ${paperTheme.textHex};
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {

@@ -19,6 +19,8 @@ interface AlbumSpreadViewProps {
   onRemovePhotoFromPage?: (photoId: string) => void;
   onOpenUploadModal: () => void;
   onViewPhoto?: (photoId: string) => void;
+  onSaveVoiceNote?: (photoId: string, audioUrl: string, duration: number) => void;
+  onSwapSlot?: (pageNumber: number, indexA: number, indexB: number) => void;
 }
 
 export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
@@ -32,6 +34,8 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
   onRemovePhotoFromPage,
   onOpenUploadModal,
   onViewPhoto,
+  onSaveVoiceNote,
+  onSwapSlot,
 }) => {
   const [isEditingAlbumStory, setIsEditingAlbumStory] = useState(false);
   const [draftAlbumStory, setDraftAlbumStory] = useState(meta.description);
@@ -41,6 +45,21 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
   const handleSaveAlbumStory = () => {
     onUpdateAlbumDescription(draftAlbumStory);
     setIsEditingAlbumStory(false);
+  };
+
+  // Paper Tone texture & background
+  const getPaperToneClass = () => {
+    switch (meta.paperTone) {
+      case 'aged-sepia':
+        return 'bg-[#f4ecd8] text-amber-950 border-amber-800/30';
+      case 'cotton-rag':
+        return 'bg-[#f8f6f0] text-stone-900 border-stone-200';
+      case 'gallery-lustre':
+        return 'bg-[#ffffff] text-neutral-900 border-neutral-300';
+      case 'warm-cream':
+      default:
+        return 'bg-[#faf8f2] text-stone-900 border-stone-300';
+    }
   };
 
   // Leather border trim class
@@ -173,6 +192,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   photo={heroPhoto}
                   cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -221,6 +241,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -261,6 +282,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -275,6 +297,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p2}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -314,6 +337,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -328,6 +352,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p2}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -368,6 +393,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 photo={p1}
                 cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
                 onViewPhoto={onViewPhoto}
@@ -383,6 +409,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   photo={p2}
                   cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -396,6 +423,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   photo={p3}
                   cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -436,6 +464,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   photo={qp}
                   cornerStyle={meta.cornerStyle}
                   scriptStyle={meta.scriptStyle}
+                  onSaveVoiceNote={onSaveVoiceNote}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
                   onViewPhoto={onViewPhoto}
@@ -499,7 +528,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
         {/* Leather/Cloth Outer Book Rim */}
         <div className={`p-2 sm:p-3 rounded-md border shadow-inner ${getCoverTrimClass()}`}>
           {/* Inside Book Pages Spread */}
-          <div className="relative grid grid-cols-1 md:grid-cols-2 min-h-[560px] sm:min-h-[640px] bg-[#faf8f2] rounded shadow-lg overflow-hidden border border-stone-300">
+          <div className={`relative grid grid-cols-1 md:grid-cols-2 min-h-[560px] sm:min-h-[640px] rounded shadow-lg overflow-hidden border ${getPaperToneClass()}`}>
             {/* Center Gutter / Spine Crease Shadow */}
             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-12 bg-gradient-to-r from-black/5 via-black/25 to-black/5 pointer-events-none z-20 shadow-inner" />
             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 -translate-x-px w-[1px] bg-stone-400 pointer-events-none z-20" />
