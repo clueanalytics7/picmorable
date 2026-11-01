@@ -16,7 +16,8 @@ import {
   ShieldCheck, 
   BookOpen, 
   SlidersHorizontal,
-  FileText
+  FileText,
+  Play
 } from 'lucide-react';
 import { AlbumMetadata } from '../../types/album';
 
@@ -34,6 +35,7 @@ interface AlbumToolbarProps {
   onOpenRearrangeMenu: () => void;
   onOpenSettingsModal: () => void;
   onShowPrivacyInfo: () => void;
+  onOpenSlideshow: () => void;
 }
 
 export const AlbumToolbar: React.FC<AlbumToolbarProps> = ({
@@ -50,6 +52,7 @@ export const AlbumToolbar: React.FC<AlbumToolbarProps> = ({
   onOpenRearrangeMenu,
   onOpenSettingsModal,
   onShowPrivacyInfo,
+  onOpenSlideshow,
 }) => {
   const isCover = currentSpreadIndex === 0;
 
@@ -145,6 +148,17 @@ export const AlbumToolbar: React.FC<AlbumToolbarProps> = ({
 
         {/* Right: Core Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Slideshow Presentation Button */}
+          <button
+            type="button"
+            onClick={onOpenSlideshow}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-stone-800 hover:bg-stone-700 text-amber-300 hover:text-amber-200 border border-amber-500/40 text-xs font-medium transition-colors cursor-pointer shadow-sm hover:border-amber-400"
+            title="Present photos in sleek fullscreen slideshow"
+          >
+            <Play className="w-3.5 h-3.5 fill-current" />
+            <span className="hidden sm:inline">Slideshow</span>
+          </button>
+
           {/* Upload Button */}
           <button
             type="button"

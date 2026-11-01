@@ -27,6 +27,7 @@ import { DownloadModal } from './components/album/DownloadModal';
 import { AlbumSettingsModal } from './components/album/AlbumSettingsModal';
 import { RearrangeModal } from './components/album/RearrangeModal';
 import { PrivacyModal } from './components/album/PrivacyModal';
+import { AlbumSlideshowModal } from './components/album/AlbumSlideshowModal';
 
 export default function App() {
   const [meta, setMeta] = useState<AlbumMetadata>(INITIAL_ALBUM_META);
@@ -41,6 +42,19 @@ export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isRearrangeOpen, setIsRearrangeOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
+  const [slideshowStartPhotoIndex, setSlideshowStartPhotoIndex] = useState(0);
+
+  // Handlers for Slideshow Presentation
+  const handleOpenSlideshow = (photoIndex: number = 0) => {
+    setSlideshowStartPhotoIndex(photoIndex);
+    setIsSlideshowOpen(true);
+  };
+
+  const handleViewPhoto = (photoId: string) => {
+    const idx = photos.findIndex(p => p.id === photoId);
+    handleOpenSlideshow(idx >= 0 ? idx : 0);
+  };
 
   // Derive two-page spreads
   const spreads = useMemo(() => {
@@ -199,6 +213,7 @@ export default function App() {
         onOpenRearrangeMenu={() => setIsRearrangeOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
         onShowPrivacyInfo={() => setIsPrivacyOpen(true)}
+        onOpenSlideshow={() => handleOpenSlideshow(0)}
       />
 
       {/* Main Archival Desk Workspace */}
@@ -230,6 +245,7 @@ export default function App() {
               onUpdatePageTemplate={handleUpdatePageTemplate}
               onRemovePhotoFromPage={handleRemovePhoto}
               onOpenUploadModal={() => setIsUploadOpen(true)}
+              onViewPhoto={handleViewPhoto}
             />
           </div>
         )}
@@ -242,6 +258,7 @@ export default function App() {
         meta={meta}
         photos={photos}
         onSelectSpread={handleSelectSpread}
+        onOpenSlideshow={() => handleOpenSlideshow(0)}
       />
 
       {/* Modals */}
@@ -277,6 +294,15 @@ export default function App() {
       <PrivacyModal
         isOpen={isPrivacyOpen}
         onClose={() => setIsPrivacyOpen(false)}
+      />
+
+      <AlbumSlideshowModal
+        isOpen={isSlideshowOpen}
+        onClose={() => setIsSlideshowOpen(false)}
+        photos={photos}
+        pages={pages}
+        meta={meta}
+        initialPhotoIndex={slideshowStartPhotoIndex}
       />
     </div>
   );

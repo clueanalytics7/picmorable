@@ -17,6 +17,7 @@ interface AlbumSpreadViewProps {
   onUpdatePageTemplate: (pageNumber: number, templateId: PageTemplateId) => void;
   onRemovePhotoFromPage?: (photoId: string) => void;
   onOpenUploadModal: () => void;
+  onViewPhoto?: (photoId: string) => void;
 }
 
 export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
@@ -28,6 +29,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
   onUpdatePageTemplate,
   onRemovePhotoFromPage,
   onOpenUploadModal,
+  onViewPhoto,
 }) => {
   const [isEditingAlbumStory, setIsEditingAlbumStory] = useState(false);
   const [draftAlbumStory, setDraftAlbumStory] = useState(meta.description);
@@ -170,6 +172,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   cornerStyle={meta.cornerStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
+                  onViewPhoto={onViewPhoto}
                   imageClassName="max-h-48 sm:max-h-56 object-cover"
                 />
               </div>
@@ -216,6 +219,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 className="max-w-md w-full"
                 imageClassName="max-h-[380px] w-full object-contain"
               />
@@ -254,6 +258,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 imageClassName="max-h-56 w-full object-cover"
               />
             ) : (
@@ -266,6 +271,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 imageClassName="max-h-56 w-full object-cover"
               />
             ) : (
@@ -303,6 +309,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 imageClassName="max-h-40 w-full object-cover"
               />
             ) : (
@@ -315,6 +322,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 imageClassName="max-h-40 w-full object-cover"
               />
             ) : (
@@ -353,6 +361,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                 cornerStyle={meta.cornerStyle}
                 onUpdateCaption={onUpdatePhotoCaption}
                 onRemovePhoto={onRemovePhotoFromPage}
+                onViewPhoto={onViewPhoto}
                 imageClassName="max-h-44 w-full object-cover"
               />
             ) : (
@@ -366,6 +375,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   cornerStyle={meta.cornerStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
+                  onViewPhoto={onViewPhoto}
                   imageClassName="max-h-28 w-full object-cover"
                 />
               ) : (
@@ -377,6 +387,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   cornerStyle={meta.cornerStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
+                  onViewPhoto={onViewPhoto}
                   imageClassName="max-h-28 w-full object-cover"
                 />
               ) : (
@@ -415,6 +426,7 @@ export const AlbumSpreadView: React.FC<AlbumSpreadViewProps> = ({
                   cornerStyle={meta.cornerStyle}
                   onUpdateCaption={onUpdatePhotoCaption}
                   onRemovePhoto={onRemovePhotoFromPage}
+                  onViewPhoto={onViewPhoto}
                   imageClassName="max-h-28 w-full object-cover"
                 />
               ) : (

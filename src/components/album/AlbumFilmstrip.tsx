@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { AlbumSpread, AlbumPhoto, AlbumMetadata } from '../../types/album';
-import { Book, Image as ImageIcon } from 'lucide-react';
+import { Book, Play } from 'lucide-react';
 
 interface AlbumFilmstripProps {
   spreads: AlbumSpread[];
@@ -13,6 +13,7 @@ interface AlbumFilmstripProps {
   meta: AlbumMetadata;
   photos: AlbumPhoto[];
   onSelectSpread: (spreadIndex: number) => void;
+  onOpenSlideshow?: () => void;
 }
 
 export const AlbumFilmstrip: React.FC<AlbumFilmstripProps> = ({
@@ -21,6 +22,7 @@ export const AlbumFilmstrip: React.FC<AlbumFilmstripProps> = ({
   meta,
   photos,
   onSelectSpread,
+  onOpenSlideshow,
 }) => {
   const photoMap = new Map(photos.map(p => [p.id, p]));
 
@@ -118,6 +120,23 @@ export const AlbumFilmstrip: React.FC<AlbumFilmstripProps> = ({
             </button>
           );
         })}
+
+        {onOpenSlideshow && (
+          <button
+            type="button"
+            onClick={onOpenSlideshow}
+            className="shrink-0 flex flex-col items-center gap-1 group cursor-pointer ml-1 transition-all opacity-80 hover:opacity-100"
+            title="Start Fullscreen Presentation Slideshow"
+          >
+            <div className="w-16 h-18 rounded border-2 border-amber-500/40 bg-stone-900/90 shadow flex flex-col items-center justify-center p-1 group-hover:border-amber-400 group-hover:scale-105 transition-all text-amber-300">
+              <Play className="w-5 h-5 fill-current mb-1" />
+              <span className="text-[9px] font-sans font-medium text-amber-200 uppercase tracking-tighter">
+                Play Show
+              </span>
+            </div>
+            <span className="text-[10px] font-mono text-stone-400">Slideshow</span>
+          </button>
+        )}
       </div>
     </div>
   );

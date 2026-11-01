@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { AlbumPhoto, CornerStyle } from '../../types/album';
-import { Edit3, Check, Calendar, MapPin, Trash2, ArrowLeftRight } from 'lucide-react';
+import { Edit3, Check, Calendar, MapPin, Trash2, ArrowLeftRight, Maximize2 } from 'lucide-react';
 
 interface AlbumPhotoMountProps {
   photo: AlbumPhoto;
@@ -13,6 +13,7 @@ interface AlbumPhotoMountProps {
   onUpdateCaption: (photoId: string, caption: string) => void;
   onRemovePhoto?: (photoId: string) => void;
   onSwapSlot?: () => void;
+  onViewPhoto?: (photoId: string) => void;
   className?: string;
   imageClassName?: string;
 }
@@ -23,6 +24,7 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
   onUpdateCaption,
   onRemovePhoto,
   onSwapSlot,
+  onViewPhoto,
   className = '',
   imageClassName = '',
 }) => {
@@ -90,7 +92,11 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
         {renderCorners()}
 
         {/* The Image */}
-        <div className="relative overflow-hidden bg-stone-100 rounded-[1px] shadow-inner">
+        <div 
+          onClick={() => onViewPhoto?.(photo.id)}
+          className={`relative overflow-hidden bg-stone-100 rounded-[1px] shadow-inner ${onViewPhoto ? 'cursor-pointer' : ''}`}
+          title={onViewPhoto ? 'Click to view in fullscreen presentation slideshow' : undefined}
+        >
           <img
             src={photo.url}
             alt={photo.caption || photo.name}
@@ -99,7 +105,20 @@ export const AlbumPhotoMount: React.FC<AlbumPhotoMountProps> = ({
           />
 
           {/* Action overlay on hover */}
-          <div className="absolute inset-0 bg-stone-950/30 opacity-0 group-hover/mount:opacity-100 transition-opacity flex items-center justify-center gap-2 p-2 pointer-events-auto">
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="absolute inset-0 bg-stone-950/30 opacity-0 group-hover/mount:opacity-100 transition-opacity flex items-center justify-center gap-2 p-2 pointer-events-auto"
+          >
+            {onViewPhoto && (
+              <button
+                type="button"
+                onClick={() => onViewPhoto(photo.id)}
+                title="View in fullscreen presentation slideshow"
+                className="p-1.5 bg-amber-400 hover:bg-amber-300 text-stone-950 rounded-full shadow text-xs transition-transform hover:scale-110 cursor-pointer"
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+            )}
             {onSwapSlot && (
               <button
                 type="button"

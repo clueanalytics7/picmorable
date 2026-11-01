@@ -57,13 +57,19 @@ Conventional photo applications often focus on cloud storage, backup, and sync. 
 - **Album Narrative Field:** A prominent, rich description block on the frontispiece page where you write the overarching story of the album (the holiday, family gathering, wedding, or milestone).
 - **Per-Picture Descriptions:** An inline editable caption slip directly beneath each photograph formatted in classic italic serif typography.
 
-### 📦 5. Client-Side Archival Export & Download
-- **Complete Album Package (.ZIP):**
-  - All rearranged photos renamed and organized by page (`page_01_photo_01.jpg`, `page_02_photo_01.jpg`, etc.).
-  - `ALBUM_STORY_AND_CAPTIONS.txt`: A clean, human-readable archival transcript with album story and plate-by-plate captions.
-  - `album_manifest.json`: Full machine-readable schema.
-- **Plain Text Transcript (.TXT):** Instant download of your album notes and captions.
-- **Spread Proof (.PNG):** High-resolution canvas snapshot of any open book spread.
+### 🎬 5. Sleek Fullscreen Slideshow / Presentation Mode
+- **Cinema-Grade Viewing:** Click **"Slideshow"** in the top toolbar or click directly on any mounted photograph to launch an immersive full-screen presentation room with soft ambient vignettes.
+- **Autoplay & Speed Tuning:** Play and pause automatic slideshow progression with customizable intervals (Fast 3s, Normal 5s, Slow 8s).
+- **Archival Caption Overlay:** View the photo caption, plate number, date, and location in classic serif typography, with a one-click toggle (`C`) for an unobstructed view of the photo.
+- **Thumbnail Scrubber Filmstrip:** Seamlessly scrub across the entire collection to jump directly to any photograph.
+- **Keyboard Navigation:** Full support for `Space` (play/pause), `Arrow Left / Right`, `F` (toggle true browser fullscreen), `C` (toggle caption), and `Esc` (exit).
+
+### 📦 6. Downloaded Product in Your Chosen Photo Album Format
+Unlike basic tools that merely return loose individual photos and text files, Picmorable exports your creation **in the format of your chosen photo album**:
+- **Archival Hardcover Photo Book (.PDF):** A multi-page, landscape photo book laid out in your exact chosen hardcover material (e.g. Burgundy Leather, Forest Linen, Navy Buckram). Includes debossed gold/silver cover stamping, a dedicated frontispiece narrative plate, and carefully spaced album pages with antique photo corner mounts and italic captions. Ready to view, share, or send to a print shop.
+- **Standalone Offline Interactive Album (.HTML):** A self-contained, single-file interactive photo album you can double-click on any computer offline. Features the tactile hardcover binding, turning pages, Web Audio paper rustle sounds, and integrated fullscreen slideshow.
+- **Complete Archival Package (.ZIP):** Bundles the Hardcover Book (.PDF), the Standalone Interactive Album (.HTML), the formatted transcript (.TXT), and all rearranged high-resolution photos into one archival backup.
+- **Plain Text Transcript (.TXT):** Formatted archival transcript of your album story narrative and all photo captions.
 
 ---
 
@@ -90,9 +96,12 @@ Conventional photo applications often focus on cloud storage, backup, and sync. 
   - Foil stamping (Gold, Silver, Rose Copper).
   - Photo corner style (Classic Black, Brass, Ivory).
 
-### Step 5: Download & Preserve
+### Step 5: Download in Your Chosen Photo Album Format
 - Click **"Download"** in the top-right corner.
-- Choose **"Complete Archival Album (.ZIP)"** to save all rearranged photos, metadata, and formatted captions transcript directly to your computer.
+- Select your preferred format:
+  - **Hardcover Photo Book (.PDF):** For reading or printing the complete landscape album with cover foil, frontispiece narrative, and arranged photo plates.
+  - **Interactive Standalone Album (.HTML):** For a portable, offline album app that turns pages, rustles, and plays fullscreen slideshows on any computer.
+  - **Complete Archival Package (.ZIP):** To get the PDF, interactive HTML, transcript, and photos all in one archival zip.
 
 ---
 
